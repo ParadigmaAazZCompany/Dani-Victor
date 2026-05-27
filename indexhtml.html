@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dany niña ❤️</title>
+<style>
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+body{
+    overflow:hidden;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:Arial;
+    background:linear-gradient(135deg,#3b73eb,#3e4af8);
+    position:relative;
+}
+
+/* ════════════════════════════
+   PANTALLA PRINCIPAL
+════════════════════════════ */
+#pantalla-principal{
+    transition: opacity 0.5s, transform 0.5s;
+}
+#pantalla-principal.oculta{
+    opacity:0;
+    transform:scale(0.9);
+    pointer-events:none;
+    position:absolute;
+}
+
+.card{
+    width:480px;
+    padding:40px;
+    border-radius:30px;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(10px);
+    text-align:center;
+    color:white;
+    box-shadow:0 8px 30px rgba(0,0,0,0.2);
+    animation:float 4s ease-in-out infinite;
+    position:relative;
+    z-index:10;
+}
+
+@keyframes float{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-10px); }
+}
+
+h1{ margin-bottom:20px; font-size:2rem; }
+p{ line-height:1.7; font-size:1.1rem; }
+
+.botones-fila{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    margin-top:20px;
+}
+
+button{
+    border:none;
+    padding:12px 16px;
+    border-radius:50px;
+    cursor:pointer;
+    background:white;
+    color:#ff4d6d;
+    font-size:0.88rem;
+    transition:0.3s;
+    white-space:nowrap;
+}
+button:hover{ transform:scale(1.1); }
+
+.botones-fila button{
+    flex:1;
+    max-width:140px;
+}
+
+.btn-ciao{ font-style:italic; }
+.btn-contador{ line-height:1.4; font-size:0.78rem !important; }
+
+.hidden{ display:none; opacity:0; margin-top:20px; transition:1s; }
+.show{ display:block; opacity:1; }
+
+.music{ margin-top:20px; font-size:0.9rem; opacity:0.8; }
+
+/* ════════════════════════════
+   PANTALLA CARRUSEL
+════════════════════════════ */
+#pantalla-carousel{
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    height:100%;
+    position:absolute;
+    top:0; left:0;
+    opacity:0;
+    transform:scale(1.05);
+    transition: opacity 0.5s, transform 0.5s;
+    z-index:20;
+    padding:20px;
+}
+#pantalla-carousel.visible{
+    opacity:1;
+    transform:scale(1);
+}
+
+.carousel-wrapper{
+    position:relative;
+    width:520px;
+    max-width:95vw;
+}
+
+/* Título del carrusel */
+.carousel-title{
+    color:white;
+    font-size:1.5rem;
+    font-weight:bold;
+    text-align:center;
+    margin-bottom:18px;
+    text-shadow:0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Track de tarjetas */
+.carousel-track-container{
+    overflow:hidden;
+    border-radius:24px;
+}
+.carousel-track{
+    display:flex;
+    transition: transform 0.45s cubic-bezier(.77,0,.18,1);
+}
+
+/* Tarjeta de persona */
+.persona-card{
+    min-width:100%;
+    background:rgba(255,255,255,0.18);
+    backdrop-filter:blur(12px);
+    border-radius:24px;
+    padding:28px 24px 24px;
+    text-align:center;
+    color:white;
+    box-shadow:0 8px 30px rgba(0,0,0,0.15);
+}
+
+/* Botón nombre */
+.btn-nombre{
+    background:white;
+    color:#ff4d6d;
+    border:none;
+    border-radius:50px;
+    padding:10px 28px;
+    font-size:1.1rem;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+    margin-bottom:18px;
+    display:inline-block;
+}
+.btn-nombre:hover{ transform:scale(1.08); box-shadow:0 4px 16px rgba(255,77,109,0.3); }
+
+/* Contenido multimedia oculto por defecto */
+.media-contenido{
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    gap:14px;
+    animation: fadeInMedia 0.4s ease;
+}
+.media-contenido.abierto{ display:flex; }
+
+@keyframes fadeInMedia{
+    from{ opacity:0; transform:translateY(8px); }
+    to{ opacity:1; transform:translateY(0); }
+}
+
+.media-foto{
+    width:160px;
+    height:160px;
+    border-radius:50%;
+    object-fit:cover;
+    border:4px solid white;
+    box-shadow:0 4px 16px rgba(0,0,0,0.2);
+    cursor:pointer;
+    transition:0.3s;
+}
+.media-foto:hover{ transform:scale(1.05); }
+
+.media-video{
+    width:100%;
+    max-width:340px;
+    border-radius:16px;
+    box-shadow:0 4px 16px rgba(0,0,0,0.2);
+}
+
+.hint-cerrar{
+    font-size:0.78rem;
+    opacity:0.7;
+    margin-top:4px;
+}
+
+/* Flechas del carrusel */
+.carousel-btn{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    background:rgba(255,255,255,0.9);
+    color:#ff4d6d;
+    border:none;
+    border-radius:50%;
+    width:40px; height:40px;
+    font-size:1.2rem;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(0,0,0,0.15);
+    transition:0.2s;
+    z-index:5;
+    display:flex; align-items:center; justify-content:center;
+    flex:none; max-width:none;
+}
+.carousel-btn:hover{ transform:translateY(-50%) scale(1.15); }
+.carousel-btn.prev{ left:-50px; }
+.carousel-btn.next{ right:-50px; }
+
+/* Puntos indicadores */
+.carousel-dots{
+    display:flex;
+    gap:8px;
+    justify-content:center;
+    margin-top:14px;
+}
+.dot{
+    width:10px; height:10px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.45);
+    cursor:pointer;
+    transition:0.3s;
+}
+.dot.activo{ background:white; transform:scale(1.3); }
+
+/* Botón volver */
+.btn-volver{
+    margin-top:16px;
+    background:rgba(255,255,255,0.25);
+    color:white;
+    border:2px solid rgba(255,255,255,0.6);
+    border-radius:50px;
+    padding:10px 28px;
+    font-size:0.9rem;
+    cursor:pointer;
+    transition:0.3s;
+    backdrop-filter:blur(4px);
+    flex:none; max-width:none;
+}
+.btn-volver:hover{ background:rgba(255,255,255,0.4); transform:scale(1.05); }
+
+/* Corazones */
+.heart{
+    position:absolute;
+    color:white;
+    pointer-events:none;
+    z-index:1;
+}
+.heart.rising{
+    animation:rise var(--dur) ease-out forwards;
+}
+.heart.fading{
+    transition:opacity 1.8s ease-out;
+    opacity:0 !important;
+}
+@keyframes rise{
+    from{ transform:translateY(100vh) scale(0); opacity:0.8; }
+    to{ transform:translateY(var(--stop-y)) scale(1.2); opacity:0.75; }
+}
+
+.spotify-contenedor-oculto{
+    position:absolute !important;
+    top:0; left:0;
+    width:300px !important; height:80px !important;
+    opacity:0 !important; z-index:-100 !important;
+    pointer-events:none !important;
+}
+
+/* ── Alerta escapatoria del contador ── */
+#alerta-contador {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    background: rgba(255,255,255,0.95);
+    color: #ff4d6d;
+    border-radius: 20px;
+    padding: 18px 24px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    text-align: center;
+    max-width: 240px;
+    backdrop-filter: blur(8px);
+    transition: opacity 0.3s;
+}
+#alerta-contador.visible { display: block; }
+#alerta-contador p {
+    font-size: 0.92rem;
+    line-height: 1.5;
+    margin-bottom: 14px;
+    font-weight: bold;
+    color: #ff4d6d;
+}
+.alerta-btns { display: flex; gap: 10px; justify-content: center; }
+#btn-si-volador {
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border: none;
+    background: #ff4d6d;
+    color: white;
+    transition: none !important;
+    box-shadow: 0 4px 14px rgba(255,77,109,0.4);
+}
+#btn-si-volador:hover { transform: none !important; }
+.alerta-btns button {
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border: none;
+    flex: none; max-width: none;
+}
+.btn-alerta-si { background: #ff4d6d; color: white; }
+.btn-alerta-no { background: #eee; color: #555; }
+.btn-alerta-si:hover { background: #e03050; transform: scale(1.08); }
+.btn-alerta-no:hover { background: #ddd; transform: scale(1.08); }
+
+/* ── MODO PELIGRO ── */
+body {
+    transition: background 0.6s ease;
+}
+body.peligro {
+    background: linear-gradient(135deg, #8b0000, #cc0000) !important;
+}
+
+/* Texto de peligro flotante */
+.peligro-txt {
+    position: absolute;
+    font-weight: bold;
+    pointer-events: none;
+    z-index: 1;
+    animation: riseDanger var(--dur) ease-out forwards;
+    white-space: nowrap;
+    text-shadow: 0 0 8px rgba(255,0,0,0.8), 0 2px 4px rgba(0,0,0,0.4);
+}
+@keyframes riseDanger {
+    from { transform: translateY(100vh) scale(0) rotate(var(--rot)); opacity: 0.9; }
+    to   { transform: translateY(var(--stop-y)) scale(1.1) rotate(var(--rot)); opacity: 0.85; }
+}
+.peligro-txt.fading {
+    transition: opacity 1.8s ease-out;
+    opacity: 0 !important;
+}
+
+/* Parpadeo del fondo */
+@keyframes flashRed {
+    0%,100% { background: linear-gradient(135deg,#8b0000,#cc0000); }
+    50%      { background: linear-gradient(135deg,#ff0000,#ff4444); }
+}
+body.peligro { animation: flashRed 1s ease-in-out infinite; }
+
+/* Ocultar carta principal en modo peligro */
+body.peligro #pantalla-principal .card {
+    filter: blur(4px);
+    opacity: 0.15;
+    pointer-events: none;
+    transition: filter 0.5s, opacity 0.5s;
+}
+</style>
+</head>
+<body>
+
+<!-- ══ PANTALLA PRINCIPAL ══ -->
+<div id="pantalla-principal">
+  <div class="card">
+    <h1>Para ti ❤️</h1>
+    <p>
+      no importa el<br>
+      camino que escojas,<br>
+      mientras no te detengas✨
+    </p>
+
+    <div class="botones-fila">
+      <button class="btn-ciao" onclick="abrirCarrusel()">
+        Ci vediamo presto 👋
+      </button>
+      <button onclick="mostrarMensaje()">
+        Abrir carta 💌
+      </button>
+      <button class="btn-contador" id="btn-contador" onclick="abrirAlerta()">
+        ⏳ ...
+      </button>
+    </div>
+
+    <p id="mensaje" class="hidden">
+      Gracias por hacer mi mundo más bonito 💖
+    </p>
+
+    <button onclick="toggleMusic()" style="margin-top:20px; max-width:none; flex:none; width:auto;">
+      🎵 Play / Pause
+    </button>
+
+    <div class="music">Nuestra canción 🎶</div>
+  </div>
+</div>
+
+<!-- ══ PANTALLA CARRUSEL ══ -->
+<div id="pantalla-carousel">
+
+  <div class="carousel-title">Personas especiales 💕</div>
+
+  <div class="carousel-wrapper">
+    <!-- Flecha izq -->
+    <button class="carousel-btn prev" onclick="moverCarrusel(-1)">&#8592;</button>
+
+    <div class="carousel-track-container">
+      <div class="carousel-track" id="carousel-track">
+
+        <!-- ─ Isabel ─ -->
+        <div class="persona-card">
+          <button class="btn-nombre" onclick="toggleMedia(this)">Isabel 🌸</button>
+          <div class="media-contenido">
+            <img class="media-foto" src="https://placehold.co/160x160/ffb6c1/fff?text=Isabel" alt="Isabel" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
+            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
+          </div>
+        </div>
+
+        <!-- ─ Joanna ─ -->
+        <div class="persona-card">
+          <button class="btn-nombre" onclick="toggleMedia(this)">Joana 🌺</button>
+          <div class="media-contenido">
+            <img class="media-foto" src="https://placehold.co/160x160/f9a8d4/fff?text=Joana" alt="Joana" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
+            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
+          </div>
+        </div>
+
+        <!-- ─ Arturo ─ -->
+        <div class="persona-card">
+          <button class="btn-nombre" onclick="toggleMedia(this)">Arturo 🎸</button>
+          <div class="media-contenido">
+            <img class="media-foto" src="https://placehold.co/160x160/fda4af/fff?text=Arturo" alt="Arturo" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
+            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
+          </div>
+        </div>
+
+        <!-- ─ Lalito ─ -->
+        <div class="persona-card">
+          <button class="btn-nombre" onclick="toggleMedia(this)">Lalito 🌷</button>
+          <div class="media-contenido">
+            <img class="media-foto" src="https://placehold.co/160x160/fbbf24/fff?text=Sof%C3%ADa" alt="Lalito
+            " onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <video class="media-video" controls src="https://1drv.ms/v/c/F5660846C2417928/IQAJ-7VKYJ8qQbp0q8Pt-CYmAaNF2qWW3527DALmo0th5ic?e=ejlcGF"></video>
+            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
+          </div>
+        </div>
+
+        <!-- ─ Mateo ─ -->
+        <div class="persona-card">
+          <button class="btn-nombre" onclick="toggleMedia(this)">Mateo 🌊</button>
+          <div class="media-contenido">
+            <img class="media-foto" src="https://placehold.co/160x160/6ee7b7/fff?text=Mateo" alt="Mateo" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
+            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
+          </div>
+        </div>
+
+        <!-- ─ Valentina ─ -->
+        <div class="persona-card">
+          <button class="btn-nombre" onclick="toggleMedia(this)">Valentina 🦋</button>
+          <div class="media-contenido">
+            <img class="media-foto" src="https://placehold.co/160x160/c4b5fd/fff?text=Vale" alt="Valentina" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
+            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
+          </div>
+        </div>
+
+        <!-- ─ Lucas ─ -->
+        <div class="persona-card">
+          <button class="btn-nombre" onclick="toggleMedia(this)">Lucas 🎵</button>
+          <div class="media-contenido">
+            <img class="media-foto" src="https://placehold.co/160x160/93c5fd/fff?text=Lucas" alt="Lucas" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
+            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
+          </div>
+        </div>
+
+        <!-- ─ Camila ─ -->
+        <div class="persona-card">
+          <button class="btn-nombre" onclick="toggleMedia(this)">Camila 🌙</button>
+          <div class="media-contenido">
+            <img class="media-foto" src="https://placehold.co/160x160/f0abfc/fff?text=Camila" alt="Camila" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
+            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
+          </div>
+        </div>
+
+      </div><!-- /track -->
+    </div><!-- /container -->
+
+    <!-- Flecha der -->
+    <button class="carousel-btn next" onclick="moverCarrusel(1)">&#8594;</button>
+  </div><!-- /wrapper -->
+
+  <!-- Puntos -->
+  <div class="carousel-dots" id="carousel-dots"></div>
+
+  <!-- Botón volver -->
+  <button class="btn-volver" onclick="cerrarCarrusel()">← Volver a la carta</button>
+
+</div><!-- /pantalla-carousel -->
+
+<!-- Spotify oculto -->
+<div class="spotify-contenedor-oculto">
+  <div id="spotify-widget"></div>
+</div>
+
+<script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
+
+<script>
+/* ── Spotify ── */
+let playerController = null;
+window.onSpotifyIframeApiReady = (IFrameAPI) => {
+    IFrameAPI.createController(
+        document.getElementById('spotify-widget'),
+        { uri:'spotify:playlist:5WeYiA1R5UiCl5hen2ixj1', width:'100%', height:'100%' },
+        (c) => { playerController = c; }
+    );
+};
+function mostrarMensaje(){
+    document.getElementById("mensaje").classList.add("show");
+    if(playerController) playerController.play();
+}
+function toggleMusic(){
+    if(playerController) playerController.togglePlay();
+}
+
+/* ── Contador ── */
+function actualizarContador(){
+    const diff = new Date('2026-05-31T23:59:59') - new Date();
+    const btn  = document.getElementById('btn-contador');
+    if(diff <= 0){ btn.innerHTML='🎉 ¡Ya llegó!'; return; }
+    const d=Math.floor(diff/86400000),
+          h=Math.floor((diff%86400000)/3600000),
+          m=Math.floor((diff%3600000)/60000),
+          s=Math.floor((diff%60000)/1000);
+    btn.innerHTML=`⏳ ${d}d ${h}h ${m}m ${s}s`;
+}
+actualizarContador();
+setInterval(actualizarContador,1000);
+
+/* ── Carrusel ── */
+let indiceActual = 0;
+const total = 8;
+
+function construirDots(){
+    const cont = document.getElementById('carousel-dots');
+    cont.innerHTML = '';
+    for(let i=0;i<total;i++){
+        const d = document.createElement('div');
+        d.classList.add('dot');
+        if(i===0) d.classList.add('activo');
+        d.onclick = () => irA(i);
+        cont.appendChild(d);
+    }
+}
+construirDots();
+
+function irA(idx){
+    /* Cerrar media abierto en la tarjeta actual */
+    const tarjetas = document.querySelectorAll('.persona-card');
+    tarjetas[indiceActual].querySelector('.media-contenido').classList.remove('abierto');
+
+    indiceActual = (idx + total) % total;
+    document.getElementById('carousel-track').style.transform =
+        `translateX(-${indiceActual * 100}%)`;
+
+    document.querySelectorAll('.dot').forEach((d,i)=>{
+        d.classList.toggle('activo', i===indiceActual);
+    });
+}
+
+function moverCarrusel(dir){ irA(indiceActual + dir); }
+
+/* ── Toggle media de cada persona ── */
+function toggleMedia(btn){
+    const media = btn.closest('.persona-card').querySelector('.media-contenido');
+    const abierto = media.classList.toggle('abierto');
+    /* Pausar video si se cierra */
+    if(!abierto){
+        const vid = media.querySelector('video');
+        if(vid) vid.pause();
+    }
+}
+
+/* ── Navegación entre pantallas ── */
+function abrirCarrusel(){
+    const principal  = document.getElementById('pantalla-principal');
+    const carrusel   = document.getElementById('pantalla-carousel');
+    principal.classList.add('oculta');
+    carrusel.style.display = 'flex';
+    requestAnimationFrame(()=>{
+        requestAnimationFrame(()=> carrusel.classList.add('visible'));
+    });
+}
+
+function cerrarCarrusel(){
+    const principal = document.getElementById('pantalla-principal');
+    const carrusel  = document.getElementById('pantalla-carousel');
+    carrusel.classList.remove('visible');
+    setTimeout(()=>{
+        carrusel.style.display='none';
+        principal.classList.remove('oculta');
+        irA(0); // resetear carrusel
+    }, 500);
+}
+
+/* ── Corazones / Peligro ── */
+const frasesPeligro = [
+    "⚠️ PELIGRO", "🚨 ALERTA", "☢️ CUIDADO",
+    "🔴 STOP", "⛔ ERROR", "💀 PELIGRO",
+    "🚫 NO", "🆘 AYUDA", "⚡ DANGER",
+    "🔥 WARNING", "☠️ RIESGO", "📛 ALTO"
+];
+
+let modoPeligro = false;
+
+function crearCorazon(){
+    if (modoPeligro) { crearPeligro(); return; }
+
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤";
+    const size = Math.random()*20+10;
+    heart.style.fontSize   = size+"px";
+    heart.style.left       = Math.random()*100+"vw";
+    heart.style.bottom     = "0";
+    heart.style.opacity    = "0.8";
+    const stopVh = Math.floor(Math.random()*70+10);
+    heart.style.setProperty('--stop-y',`-${stopVh}vh`);
+    const dur = (Math.random()*4+3).toFixed(1)+"s";
+    heart.style.setProperty('--dur', dur);
+    document.body.appendChild(heart);
+    requestAnimationFrame(()=> heart.classList.add("rising"));
+    const durMs = parseFloat(dur)*1000;
+    setTimeout(()=>{
+        const rect = heart.getBoundingClientRect();
+        heart.classList.remove("rising");
+        heart.style.animation="none";
+        heart.style.top=rect.top+"px";
+        heart.style.left=rect.left+"px";
+        heart.style.bottom="auto";
+        heart.style.transform="scale(1.2)";
+        setTimeout(()=>{
+            heart.classList.add("fading");
+            setTimeout(()=> heart.remove(), 1900);
+        }, 300);
+    }, durMs);
+}
+
+function crearPeligro(){
+    const el = document.createElement("div");
+    el.classList.add("peligro-txt");
+    const frase = frasesPeligro[Math.floor(Math.random() * frasesPeligro.length)];
+    el.textContent = frase;
+    const size = Math.random()*18+14;
+    el.style.fontSize = size + "px";
+    el.style.color = Math.random() > 0.5 ? "#ffffff" : "#ffff00";
+    el.style.left  = Math.random()*90 + "vw";
+    el.style.bottom = "0";
+    el.style.opacity = "0.9";
+    const rot = (Math.random()*30 - 15).toFixed(1) + "deg";
+    el.style.setProperty('--rot', rot);
+    const stopVh = Math.floor(Math.random()*70+10);
+    el.style.setProperty('--stop-y', `-${stopVh}vh`);
+    const dur = (Math.random()*3+2).toFixed(1) + "s";
+    el.style.setProperty('--dur', dur);
+    document.body.appendChild(el);
+    const durMs = parseFloat(dur)*1000;
+    setTimeout(()=>{
+        const rect = el.getBoundingClientRect();
+        el.style.animation = "none";
+        el.style.top  = rect.top  + "px";
+        el.style.left = rect.left + "px";
+        el.style.bottom = "auto";
+        setTimeout(()=>{
+            el.classList.add("fading");
+            setTimeout(()=> el.remove(), 1900);
+        }, 400);
+    }, durMs);
+}
+
+function activarModoPeligro() {
+    modoPeligro = true;
+    document.body.classList.add('peligro');
+    // limpiar corazones existentes
+    document.querySelectorAll('.heart').forEach(h => h.remove());
+}
+
+function desactivarModoPeligro() {
+    modoPeligro = false;
+    document.body.classList.remove('peligro');
+    // limpiar textos de peligro
+    document.querySelectorAll('.peligro-txt').forEach(e => e.remove());
+}
+
+setInterval(crearCorazon, 350);
+
+/* ── Alerta escapatoria del contador ── */
+const frases = [
+    "¿Estás segura de que quieres adelantar el reloj? ⏰",
+    "Hmm… ¿de verdad? No parece buena idea... 🤔",
+    "¡Espera! El tiempo no se puede apresurar así 😅",
+    "¿¿En serio?? El reloj no quiere moverse 🙈",
+    "Oye, el tiempo tiene sus propios planes 🌙",
+    "Nope, nope, nope... ¡inténtalo de otra forma! 🚫",
+    "¡El reloj se escondió! Ya no lo encuentro 😂",
+    "Ok ok... pero igual no voy a dejarte 😜",
+    "No DANY no vayas pro ese camino",
+];
+
+let alertaIntentos = 0;
+let alertaMaximo = Math.floor(Math.random() * 6) + 3; // entre 3 y 8
+
+function abrirAlerta() {
+    activarModoPeligro();
+    alertaIntentos = 0;
+    alertaMaximo = Math.floor(Math.random() * 6) + 3;
+    document.getElementById('alerta-texto').textContent = frases[0];
+    // Centrar alerta fija en pantalla
+    const alerta = document.getElementById('alerta-contador');
+    alerta.style.left = '50%';
+    alerta.style.top  = '50%';
+    alerta.style.transform = 'translate(-50%, -50%)';
+    alerta.classList.add('visible');
+    // Mostrar botón SI y ubicarlo cerca del No
+    const btnSi = document.getElementById('btn-si-volador');
+    btnSi.style.display = 'block';
+    posicionarSiCercaDeAlerta();
+}
+
+function cerrarAlerta() {
+    document.getElementById('alerta-contador').classList.remove('visible');
+    document.getElementById('btn-si-volador').style.display = 'none';
+    alertaIntentos = 0;
+    desactivarModoPeligro();
+}
+
+function alertaEscapar() {
+    alertaIntentos++;
+    const alerta = document.getElementById('alerta-contador');
+
+    if (alertaIntentos >= alertaMaximo) {
+        // Se rinde y cierra
+        document.getElementById('alerta-texto').textContent = "¡Está bien, está bien! 😂 Pero el tiempo sigue igual...";
+        document.querySelector('.alerta-btns').style.display = 'none';
+        moverBotonSi();
+        setTimeout(() => {
+            cerrarAlerta();
+            document.querySelector('.alerta-btns').style.display = 'flex';
+        }, 2200);
+        return;
+    }
+
+    // Cambiar frase y escapar a posición random
+    const fraseIdx = Math.min(alertaIntentos, frases.length - 1);
+    document.getElementById('alerta-texto').textContent = frases[fraseIdx];
+    moverBotonSi();
+}
+
+function posicionarSiCercaDeAlerta() {
+    const alerta = document.getElementById('alerta-contador');
+    const btnSi  = document.getElementById('btn-si-volador');
+    const rect   = alerta.getBoundingClientRect();
+    // Colocar el botón SI justo a la izquierda del botón NO dentro de la alerta
+    btnSi.style.left = (rect.left + 16) + 'px';
+    btnSi.style.top  = (rect.bottom - 50) + 'px';
+}
+
+function rectsSolapan(ax, ay, aw, ah, bx, by, bw, bh, margen) {
+    return !(ax > bx + bw + margen ||
+             ax + aw + margen < bx ||
+             ay > by + bh + margen ||
+             ay + ah + margen < by);
+}
+
+function moverBotonSi() {
+    const btnSi  = document.getElementById('btn-si-volador');
+    const alerta = document.getElementById('alerta-contador');
+
+    const sw = btnSi.offsetWidth  || 60;
+    const sh = btnSi.offsetHeight || 36;
+    const aw = alerta.offsetWidth  || 240;
+    const ah = alerta.offsetHeight || 130;
+
+    const margen = 30; // separación mínima entre los dos
+    let sx, sy, ax, ay, intentos = 0;
+
+    // Buscar posiciones que no se solapen
+    do {
+        sx = Math.floor(Math.random() * (window.innerWidth  - sw - 20)) + 10;
+        sy = Math.floor(Math.random() * (window.innerHeight - sh - 20)) + 10;
+        ax = Math.floor(Math.random() * (window.innerWidth  - aw - 20)) + 10;
+        ay = Math.floor(Math.random() * (window.innerHeight - ah - 20)) + 10;
+        intentos++;
+    } while (rectsSolapan(sx, sy, sw, sh, ax, ay, aw, ah, margen) && intentos < 30);
+
+    // Mover botón SI
+    btnSi.style.transition = 'left 0.35s cubic-bezier(.77,0,.18,1), top 0.35s cubic-bezier(.77,0,.18,1)';
+    btnSi.style.left = sx + 'px';
+    btnSi.style.top  = sy + 'px';
+
+    // Mover alerta (sin transition para que sea instantáneo y sorpresivo)
+    alerta.style.transform = 'none';
+    alerta.style.left = ax + 'px';
+    alerta.style.top  = ay + 'px';
+}
+
+</script>
+
+<!-- ── Alerta escapatoria ── -->
+<div id="alerta-contador">
+  <p id="alerta-texto">¿Estás segura de que quieres adelantar el reloj? ⏰</p>
+  <div class="alerta-btns">
+    <button class="btn-alerta-no" onclick="cerrarAlerta()">No</button>
+  </div>
+</div>
+<!-- Botón SI volador (independiente) -->
+<button id="btn-si-volador" class="btn-alerta-si" onclick="alertaEscapar()" style="display:none; position:fixed; z-index:10000;">Sí</button>
+
+</body>
+</html>
