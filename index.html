@@ -162,7 +162,7 @@ button:hover{ transform:scale(1.1); }
     margin-bottom:18px;
     display:inline-block;
 }
-.btn-nombre:hover{ transform:scale(1.08); box-shadow:0 4px 16px rgba(255,77,109,0.3); }
+.btn-nombre:hover{ transform:scale(1.08); box-shadow:0 4px 166px rgba(255,77,109,0.3); }
 
 /* Contenido multimedia oculto por defecto */
 .media-contenido{
@@ -524,7 +524,7 @@ body.peligro #pantalla-principal .card {
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Isabel 🌸</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Isabel.jpeg" alt="Isabel" onclick="abrirFotoGrande(this)">
+            <img class="media-foto" src="Fotos/Isabel.jpeg" alt="Isabel" onclick="abrirFotoGrande(event, this)">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
             <span class="hint-cerrar">Toca la foto para expandir</span>
           </div>
@@ -534,7 +534,7 @@ body.peligro #pantalla-principal .card {
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Joanna 🐬</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Joana.jpeg" alt="Joanna" onclick="abrirFotoGrande(this)">
+            <img class="media-foto" src="Fotos/Joana.jpeg" alt="Joanna" onclick="abrirFotoGrande(event, this)">
             <video class="media-video" controls src="Videos/Joanna.mp4"></video>
             <span class="hint-cerrar">Toca la foto para expandir</span>
           </div>
@@ -544,7 +544,7 @@ body.peligro #pantalla-principal .card {
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Leonardo 🚲</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Leonardo.jpeg" alt="Leonardo" onclick="abrirFotoGrande(this)">
+            <img class="media-foto" src="Fotos/Leonardo.jpeg" alt="Leonardo" onclick="abrirFotoGrande(event, this)">
             <video class="media-video" controls src="Videos/Leonardo.mp4"></video>
             <span class="hint-cerrar">Toca la foto para expandir</span>
           </div>
@@ -554,7 +554,7 @@ body.peligro #pantalla-principal .card {
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Lalito 🦋</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Lalito.jpeg" alt="Lalito" onclick="abrirFotoGrande(this)">
+            <img class="media-foto" src="Fotos/Lalito.jpeg" alt="Lalito" onclick="abrirFotoGrande(event, this)">
             <video class="media-video" controls src="Videos/Lalito.mp4"></video>
             <span class="hint-cerrar">Toca la foto para expandir</span>
           </div>
@@ -564,7 +564,7 @@ body.peligro #pantalla-principal .card {
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Alessandro 🌊</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Alessandro.jpeg" alt="Alessandro" onclick="abrirFotoGrande(this)">
+            <img class="media-foto" src="Fotos/Alessandro.jpeg" alt="Alessandro" onclick="abrirFotoGrande(event, this)">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
             <span class="hint-cerrar">Toca la foto para expandir</span>
           </div>
@@ -574,7 +574,7 @@ body.peligro #pantalla-principal .card {
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Sergio 🎵</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Sergio.jpeg" alt="Sergio" onclick="abrirFotoGrande(this)">
+            <img class="media-foto" src="Fotos/Sergio.jpeg" alt="Sergio" onclick="abrirFotoGrande(event, this)">
             <video class="media-video" controls src="Videos/Sergio.mp4"></video>
             <span class="hint-cerrar">Toca la foto para expandir</span>
           </div>
@@ -584,7 +584,7 @@ body.peligro #pantalla-principal .card {
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Leticia 🐢</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Leticia.jpeg" alt="Leticia" onclick="abrirFotoGrande(this)">
+            <img class="media-foto" src="Fotos/Leticia.jpeg" alt="Leticia" onclick="abrirFotoGrande(event, this)">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
             <span class="hint-cerrar">Toca la foto para expandir</span>
           </div>
@@ -594,7 +594,7 @@ body.peligro #pantalla-principal .card {
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Omar 🍴</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Omar.jpg" alt="Omar" onclick="abrirFotoGrande(this)">
+            <img class="media-foto" src="Fotos/Omar.jpg" alt="Omar" onclick="abrirFotoGrande(event, this)">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
             <span class="hint-cerrar">Toca la foto para expandir</span>
           </div>
@@ -604,7 +604,7 @@ body.peligro #pantalla-principal .card {
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Arturo 💬</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Arturo.png" alt="Arturo" onclick="abrirFotoGrande(this)">
+            <img class="media-foto" src="Fotos/Arturo.png" alt="Arturo" onclick="abrirFotoGrande(event, this)">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
             <span class="hint-cerrar">Toca la foto para expandir</span>
           </div>
@@ -634,8 +634,8 @@ body.peligro #pantalla-principal .card {
 </div>
 
 <!-- ══ MODAL PARA VER FOTO EN TAMAÑO ORIGINAL ══ -->
-<div id="modal-foto-grande" onclick="cerrarFotoGrande()" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:20000; justify-content:center; align-items:center; opacity:0; transition:opacity 0.3s ease; cursor:zoom-out;">
-  <img id="img-modal-target" src="" alt="Foto grande" style="max-width:90vw; max-height:90vh; object-fit:contain; border-radius:12px; box-shadow:0 10px 40px rgba(0,0,0,0.5); transform:scale(0.9); transition:transform 0.3s ease;">
+<div id="modal-foto-grande" onclick="cerrarFotoGrande()" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.9); z-index:999999; justify-content:center; align-items:center; opacity:0; transition:opacity 0.3s ease; cursor:zoom-out;">
+  <img id="img-modal-target" src="" alt="Foto grande" style="max-width:95vw; max-height:95vh; object-fit:contain; border-radius:8px; box-shadow:0 10px 40px rgba(0,0,0,0.8); transform:scale(0.9); transition:transform 0.3s ease;">
 </div>
 
 <!-- Spotify oculto -->
@@ -724,7 +724,9 @@ function toggleMedia(btn){
 }
 
 /* ── Funciones para expandir fotos al tamaño original ── */
-function abrirFotoGrande(imgElement) {
+function abrirFotoGrande(event, imgElement) {
+    if (event) event.stopPropagation(); // Evita que se cierre la tarjeta multimedia al hacer clic
+    
     const modal = document.getElementById('modal-foto-grande');
     const modalImg = document.getElementById('img-modal-target');
     
