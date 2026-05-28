@@ -209,7 +209,7 @@ button:hover{ transform:scale(1.1); }
     object-fit:cover;
     border:4px solid white;
     box-shadow:0 4px 16px rgba(0,0,0,0.2);
-    cursor:zoom-in; /* Cursor de zoom */
+    cursor:zoom-in; /* Cambiado a icono de zoom */
     transition:0.3s;
 }
 .media-foto:hover{ transform:scale(1.05); }
@@ -300,29 +300,12 @@ button:hover{ transform:scale(1.1); }
     to{ transform:translateY(var(--stop-y)) scale(1.2); opacity:0.75; }
 }
 
-/* Ocultación del reproductor base */
 .spotify-contenedor-oculto{
     position:absolute !important;
     top:0; left:0;
-    width:320px !important; height:90px !important;
-    opacity:0 !important; 
-    z-index:-100 !important;
+    width:300px !important; height:80px !important;
+    opacity:0 !important; z-index:-100 !important;
     pointer-events:none !important;
-    transition: all 0.5s ease;
-}
-
-/* ESTILO REPRODUCTOR FINAL: Se vuelve visible discretamente abajo en el centro de las estrellas */
-.spotify-contenedor-oculto.mostrar-reproductor {
-    opacity: 1 !important;
-    z-index: 200 !important;
-    pointer-events: auto !important;
-    top: auto !important;
-    bottom: 30px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    border-radius: 12px !important;
-    overflow: hidden !important;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.7) !important;
 }
 
 /* ── Capa de Imagen Maximizada (Lightbox) ── */
@@ -503,7 +486,7 @@ body.peligro #pantalla-principal .card {
 /* Indicador de progreso (puntitos) */
 .progreso-frases {
     position: absolute;
-    bottom: 140px; /* Ajustado para dar espacio al minireproductor */
+    bottom: 36px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -577,75 +560,76 @@ body.peligro #pantalla-principal .card {
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
             <span class="hint-cerrar">Toca el nombre para cerrar o haz clic en la foto para agrandar</span>
           </div>
-         </div>
+        </div>
 
-         <div class="persona-card">
+        <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Joanna 🐬</button>
           <div class="media-contenido">
             <img class="media-foto" src="Fotos/Joana.jpeg" alt="Joanna" onclick="maximizarFoto(this)">
             <video class="media-video" controls src="Videos/Joanna.mp4"></video>
             <span class="hint-cerrar">Toca el nombre para cerrar o haz clic en la foto para agrandar</span>
           </div>
-         </div>
+        </div>
 
-         <div class="persona-card">
+        <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Leonardo 🚲</button>
           <div class="media-contenido">
             <img class="media-foto" src="Fotos/Leonardo.jpeg" alt="Leonardo" onclick="maximizarFoto(this)">
             <video class="media-video" controls src="Videos/Leonardo.mp4"></video>
             <span class="hint-cerrar">Toca el nombre para cerrar o haz clic en la foto para agrandar</span>
           </div>
-         </div>
+        </div>
 
-         <div class="persona-card">
+        <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Lalito 🦋</button>
           <div class="media-contenido">
             <img class="media-foto" src="https://placehold.co/160x160/fbbf24/fff?text=Lalito" alt="Lalito" onclick="maximizarFoto(this)">
             <video class="media-video" controls src="Videos/Lalito.mp4"></video>
             <span class="hint-cerrar">Toca el nombre para cerrar o haz clic en la foto para agrandar</span>
           </div>
-         </div>
+        </div>
 
-         <div class="persona-card">
+        <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Alessandro 🌊</button>
           <div class="media-contenido">
             <img class="media-foto" src="Fotos/Alessandro.jpeg" alt="Alessandro" onclick="maximizarFoto(this)">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
             <span class="hint-cerrar">Toca el nombre para cerrar o haz clic en la foto para agrandar</span>
           </div>
-         </div>
+        </div>
 
-         <div class="persona-card">
+        <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Sergio 🎵</button>
           <div class="media-contenido">
             <img class="media-foto" src="Fotos/Sergio.jpeg" alt="Sergio" onclick="maximizarFoto(this)">
             <video class="media-video" controls src="Videos/Sergio.mp4"></video>
             <span class="hint-cerrar">Toca el nombre para cerrar o haz clic en la foto para agrandar</span>
           </div>
-         </div>
+        </div>
 
-         <div class="persona-card">
+        <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Leticia 🐢</button>
           <div class="media-contenido">
             <img class="media-foto" src="Fotos/Leticia.jpeg" alt="Leticia" onclick="maximizarFoto(this)">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
             <span class="hint-cerrar">Toca el nombre para cerrar o haz clic en la foto para agrandar</span>
           </div>
-         </div>
+        </div>
         
-         <div class="persona-card">
+        <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Omar 🍴</button>
           <div class="media-contenido">
             <img class="media-foto" src="Fotos/Omar.jpg" alt="Omar" onclick="maximizarFoto(this)">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
             <span class="hint-cerrar">Toca el nombre para cerrar o haz clic en la foto para agrandar</span>
           </div>
-         </div>
+        </div>
 
       </div></div><button class="carousel-btn next" onclick="moverCarrusel(1)">→</button>
   </div><div class="carousel-dots" id="carousel-dots"></div>
 
   <button class="btn-volver" onclick="cerrarCarrusel()">← Volver a la carta</button>
+
 </div>
 
 <div id="pantalla-mensaje-final">
@@ -654,12 +638,11 @@ body.peligro #pantalla-principal .card {
   <div class="progreso-frases" id="progreso-frases"></div>
 </div>
 
-<!-- Capa fija para maximizar imágenes con un clic -->
+<!-- Capa externa fija para maximizar imágenes con un clic -->
 <div id="overlay-foto" onclick="minimizarFoto()">
     <img id="img-grande" src="" alt="Imagen grande">
 </div>
 
-<!-- Contenedor invisible inicial de Spotify -->
 <div class="spotify-contenedor-oculto" id="contenedor-spotify-global">
   <div id="spotify-widget"></div>
 </div>
@@ -669,10 +652,10 @@ body.peligro #pantalla-principal .card {
 <script>
 /* ── Spotify ── */
 let playerController = null;
-let spotifyAPIInstance = null; 
+let spotifyAPIInstance = null; // Guardamos referencia de la API global de Spotify
 
 window.onSpotifyIframeApiReady = (IFrameAPI) => {
-    spotifyAPIInstance = IFrameAPI; 
+    spotifyAPIInstance = IFrameAPI; // Guardamos la API para reconstruir más tarde
     IFrameAPI.createController(
         document.getElementById('spotify-widget'),
         { uri:'spotify:playlist:5WeYiA1R5UiCl5hen2ixj1', width:'100%', height:'100%' },
@@ -692,13 +675,18 @@ function maximizarFoto(imgElement) {
     const imgGrande = document.getElementById('img-grande');
     imgGrande.src = imgElement.src;
     overlay.style.display = 'flex';
-    requestAnimationFrame(() => { overlay.classList.add('abierto'); });
+    // Esperar un frame para activar la animación CSS de opacidad
+    requestAnimationFrame(() => {
+        overlay.classList.add('abierto');
+    });
 }
 
 function minimizarFoto() {
     const overlay = document.getElementById('overlay-foto');
     overlay.classList.remove('abierto');
-    setTimeout(() => { overlay.style.display = 'none'; }, 300); 
+    setTimeout(() => {
+        overlay.style.display = 'none';
+    }, 300); // Mismo tiempo que la transición CSS
 }
 
 /* ── Contador ── */
@@ -710,7 +698,7 @@ function actualizarContador(){
         btn.innerHTML = '✨ Un mensaje te espera'; 
         btn.onclick = abrirMensajeFinal;          
         btn.setAttribute("onclick", "abrirMensajeFinal()"); 
-        btn.classList.add('transformado-dorado');[cite: 3]
+        btn.classList.add('transformado-dorado'); 
         return;
     }
     
@@ -745,13 +733,17 @@ function irA(idx){
     tarjetas[indiceActual].querySelector('.media-contenido').classList.remove('abierto');
 
     indiceActual = (idx + total) % total;
-    document.getElementById('carousel-track').style.transform = `translateX(-${indiceActual * 100}%)`;
+    document.getElementById('carousel-track').style.transform =
+        `translateX(-${indiceActual * 100}%)`;
 
-    document.querySelectorAll('.dot').forEach((d,i)=>{ d.classList.toggle('activo', i===indiceActual); });
+    document.querySelectorAll('.dot').forEach((d,i)=>{
+        d.classList.toggle('activo', i===indiceActual);
+    });
 }
 
 function moverCarrusel(dir){ irA(indiceActual + dir); }
 
+/* ── Toggle media de cada persona ── */
 function toggleMedia(btn){
     const media = btn.closest('.persona-card').querySelector('.media-contenido');
     const abierto = media.classList.toggle('abierto');
@@ -764,12 +756,15 @@ function toggleMedia(btn){
     }
 }
 
+/* ── Navegación entre pantallas ── */
 function abrirCarrusel(){
     const principal  = document.getElementById('pantalla-principal');
     const carrusel   = document.getElementById('pantalla-carousel');
     principal.classList.add('oculta');
     carrusel.style.display = 'flex';
-    requestAnimationFrame(()=>{ requestAnimationFrame(()=> carrusel.classList.add('visible')); });
+    requestAnimationFrame(()=>{
+        requestAnimationFrame(()=> carrusel.classList.add('visible'));
+    });
 }
 
 function cerrarCarrusel(){
@@ -785,8 +780,10 @@ function cerrarCarrusel(){
 
 /* ── Corazones / Peligro ── */
 const frasesPeligro = [
-    "⚠️ PELIGRO", "🚨 ALERTA", "☢️ CUIDADO", "🔴 STOP", "⛔ ERROR", 
-    "💀 PELIGRO", "🚫 NO", "🆘 AYUDA", "⚡ DANGER", "🔥 WARNING", "☠️ RIESGO", "📛 ALTO"
+    "⚠️ PELIGRO", "🚨 ALERTA", "☢️ CUIDADO",
+    "🔴 STOP", "⛔ ERROR", "💀 PELIGRO",
+    "🚫 NO", "🆘 AYUDA", "⚡ DANGER",
+    "🔥 WARNING", "☠️ RIESGO", "📛 ALTO"
 ];
 
 let modoPeligro = false;
@@ -827,7 +824,8 @@ function crearCorazon(){
 function crearPeligro(){
     const el = document.createElement("div");
     el.classList.add("peligro-txt");
-    el.textContent = frasesPeligro[Math.floor(Math.random() * frasesPeligro.length)];
+    const frase = frasesPeligro[Math.floor(Math.random() * frasesPeligro.length)];
+    el.textContent = frase;
     const size = Math.random()*18+14;
     el.style.fontSize = size + "px";
     el.style.color = Math.random() > 0.5 ? "#ffffff" : "#ffff00";
@@ -885,7 +883,7 @@ let alertaIntentos = 0;
 let alertaMaximo = Math.floor(Math.random() * 6) + 3; 
 
 function abrirAlerta() {
-    if(document.getElementById('btn-contador').classList.contains('transformado-dorado')) {[cite: 3]
+    if(document.getElementById('btn-contador').classList.contains('transformado-dorado')) {
         return; 
     }
 
@@ -939,7 +937,10 @@ function posicionarSiCercaDeAlerta() {
 }
 
 fn = (ax, ay, aw, ah, bx, by, bw, bh, margen) => {
-    return !(ax > bx + bw + margen || ax + aw + margen < bx || ay > by + bh + margen || ay + ah + margen < by);
+    return !(ax > bx + bw + margen ||
+             ax + aw + margen < bx ||
+             ay > by + bh + margen ||
+             ay + ah + margen < by);
 }
 
 function moverBotonSi() {
@@ -983,7 +984,7 @@ const frasesMensaje = [
     " ✨"
 ];
 
-let fraseIdx = 0;
+let fraseMensajeIdx = 0;
 let mensajeCorriendo = false;
 
 function abrirMensajeFinal() {
@@ -1001,35 +1002,31 @@ function abrirMensajeFinal() {
     iniciarEstrellas();
     construirProgreso();
 
-    // 2. CAMBIO DE CLASE CSS: Volvemos visible el mini-reproductor abajo en las estrellas
-    const contenedorGlobal = document.getElementById('contenedor-spotify-global');
-    contenedorGlobal.classList.add('mostrar-reproductor');
-
-    // 3. CARGA DE AUDIO: Reconstrucción en orden correcto (Volumen primero, luego Play)
+    // 2. SOLUCIÓN AL AUDIO: Reconstruir por completo el reproductor para la canción específica
     try {
         if (spotifyAPIInstance) {
-            // Limpiamos el widget viejo de la playlist anterior
-            document.getElementById('contenedor-spotify-global').innerHTML = '<div id="spotify-widget"></div>';
+            const contenedorGlobal = document.getElementById('contenedor-spotify-global');
+            // Limpiamos el widget anterior por completo
+            contenedorGlobal.innerHTML = '<div id="spotify-widget"></div>';
             
-            // Creamos el nuevo controlador enlazado estrictamente a tu canción definitiva
+            // Creamos un controlador fresco únicamente enlazado a la ID de la canción final
             spotifyAPIInstance.createController(
                 document.getElementById('spotify-widget'),
                 { uri: 'spotify:track:2Kd1MT5y2CVTJsD9vUc9Yf', width: '100%', height: '100%' },
                 (nuevoController) => {
                     playerController = nuevoController;
-                    
-                    // Delay seguro de carga para el DOM
+                    // Forzamos el play de la nueva canción directamente y asignamos volumen moderado
                     setTimeout(() => {
                         if(playerController) {
-                            playerController.setVolume(45); // ORDEN CORRECTO: 1° Setear Volumen moderado
-                            playerController.play();        // ORDEN CORRECTO: 2° Mandar orden Play
+                            playerController.play();
+                            playerController.setVolume(45);
                         }
-                    }, 500);
+                    }, 400);
                 }
             );
         }
     } catch(err) {
-        console.log("Error controlado de carga:", err);
+        console.log("Error controlado al inicializar la pista final:", err);
     }
 
     setTimeout(() => mostrarFrase(0), 600);
@@ -1048,7 +1045,7 @@ function construirProgreso() {
 
 function mostrarFrase(idx) {
     const el   = document.getElementById('frase-final-txt');
-    const dots = document.querySelectorAll('.progreso-frases .prog-dot');
+    const dots = document.querySelectorAll('.prog-dot');
 
     dots.forEach((d, i) => {
         d.classList.remove('activo');
@@ -1082,11 +1079,6 @@ function mostrarFrase(idx) {
 function cerrarMensajeFinal() {
     const pantalla = document.getElementById('pantalla-mensaje-final');
     pantalla.classList.remove('visible');
-    
-    // Ocultamos de nuevo el reproductor al salir del mensaje
-    const contenedorGlobal = document.getElementById('contenedor-spotify-global');
-    contenedorGlobal.classList.remove('mostrar-reproductor');
-
     setTimeout(() => {
         pantalla.style.display = 'none';
         mensajeCorriendo = false;
@@ -1171,6 +1163,7 @@ function pararEstrellas() {
         animFrameId = null;
     }
 }
+
 </script>
 
 <div id="alerta-contador">
