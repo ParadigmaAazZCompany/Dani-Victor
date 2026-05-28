@@ -511,6 +511,15 @@ body.peligro #pantalla-principal .card {
   </div>
 </div>
 
+<!-- Estructura de la Alerta del Contador que faltaba en el HTML original -->
+<div id="alerta-contador">
+  <p id="alerta-texto">¿Estás segura de que quieres adelantar el reloj? ⏰</p>
+  <div class="alerta-btns">
+    <button class="btn-alerta-no" onclick="cerrarAlerta()">No</button>
+  </div>
+</div>
+<button id="btn-si-volador" style="display:none; position:fixed; z-index:10000;" onmouseover="alertaEscapar()" onclick="alertaEscapar()">Sí</button>
+
 <div id="pantalla-carousel">
 
   <div class="carousel-title">Personas especiales 💕</div>
@@ -524,7 +533,7 @@ body.peligro #pantalla-principal .card {
          <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Isabel 🌸</button>
           <div class="media-contenido">
-            <img class="media-foto" src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Fotos\Isabel.jpeg" alt="Isabel" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <img class="media-foto" src="Fotos/Isabel.jpeg" alt="Isabel" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
             <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
@@ -533,8 +542,8 @@ body.peligro #pantalla-principal .card {
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Joanna 🐬</button>
           <div class="media-contenido">
-            <img class="media-foto" src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Fotos\Joana.jpeg" alt="Joanna" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
-            <video class="media-video" controls src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Videos\Joanna.mp4"></video>
+            <img class="media-foto" src="Fotos/Joana.jpeg" alt="Joanna" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <video class="media-video" controls src="Videos/Joanna.mp4"></video>
             <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
         </div>
@@ -542,8 +551,8 @@ body.peligro #pantalla-principal .card {
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Leonardo 🚲</button>
           <div class="media-contenido">
-            <img class="media-foto" src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Fotos\Leonardo.jpeg" alt="Leonardo" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
-            <video class="media-video" controls src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Videos\Leonardo.mp4"></video>
+            <img class="media-foto" src="Fotos/Leonardo.jpeg" alt="Leonardo" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <video class="media-video" controls src="Videos/Leonardo.mp4"></video>
             <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
         </div>
@@ -552,7 +561,7 @@ body.peligro #pantalla-principal .card {
           <button class="btn-nombre" onclick="toggleMedia(this)">Lalito 🦋</button>
           <div class="media-contenido">
             <img class="media-foto" src="https://placehold.co/160x160/fbbf24/fff?text=Lalito" alt="Lalito" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
-            <video class="media-video" controls src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Videos\Lalito.mp4"></video>
+            <video class="media-video" controls src="Videos/Lalito.mp4"></video>
             <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
         </div>
@@ -560,7 +569,7 @@ body.peligro #pantalla-principal .card {
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Alessandro 🌊</button>
           <div class="media-contenido">
-            <img class="media-foto" src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Fotos\Alessandro.jpeg" alt="Alessandro" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <img class="media-foto" src="Fotos/Alessandro.jpeg" alt="Alessandro" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
             <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
@@ -569,8 +578,8 @@ body.peligro #pantalla-principal .card {
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Sergio 🎵</button>
           <div class="media-contenido">
-            <img class="media-foto" src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Fotos\Sergio.jpeg" alt="Sergio" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
-            <video class="media-video" controls src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Videos\Sergio.mp4"></video>
+            <img class="media-foto" src="Fotos/Sergio.jpeg" alt="Sergio" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <video class="media-video" controls src="Videos/Sergio.mp4"></video>
             <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
         </div>
@@ -578,7 +587,7 @@ body.peligro #pantalla-principal .card {
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Leticia 🐢</button>
           <div class="media-contenido">
-            <img class="media-foto" src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Fotos\Leticia.jpeg" alt="Leticia" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <img class="media-foto" src="Fotos/Leticia.jpeg" alt="Leticia" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
             <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
@@ -587,7 +596,7 @@ body.peligro #pantalla-principal .card {
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Omar 🍴</button>
           <div class="media-contenido">
-            <img class="media-foto" src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Fotos\Omar.jpg" alt="Omar" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <img class="media-foto" src="Fotos/Omar.jpg" alt="Omar" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
             <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
@@ -613,10 +622,10 @@ body.peligro #pantalla-principal .card {
 <script>
 /* ── Spotify ── */
 let playerController = null;
-let spotifyAPIInstance = null; // Guardamos referencia de la API global de Spotify
+let spotifyAPIInstance = null; 
 
 window.onSpotifyIframeApiReady = (IFrameAPI) => {
-    spotifyAPIInstance = IFrameAPI; // Guardamos la API para reconstruir más tarde
+    spotifyAPIInstance = IFrameAPI; 
     IFrameAPI.createController(
         document.getElementById('spotify-widget'),
         { uri:'spotify:playlist:5WeYiA1R5UiCl5hen2ixj1', width:'100%', height:'100%' },
@@ -784,7 +793,7 @@ function crearPeligro(){
     setTimeout(()=>{
         const rect = el.getBoundingClientRect();
         el.style.animation = "none";
-        el.style.top  = rect.top  + "px";
+        el.style.top  = rect.top   + "px";
         el.style.left = rect.left + "px";
         el.style.bottom = "auto";
         setTimeout(()=>{
@@ -933,7 +942,6 @@ function abrirMensajeFinal() {
     mensajeCorriendo = true;
     fraseIdx = 0;
 
-    // 1. ABRIR PANTALLA VISUAL INSTANTÁNEAMENTE
     const pantalla = document.getElementById('pantalla-mensaje-final');
     pantalla.style.display = 'flex';
     requestAnimationFrame(() => {
@@ -943,20 +951,16 @@ function abrirMensajeFinal() {
     iniciarEstrellas();
     construirProgreso();
 
-    // 2. SOLUCIÓN AL AUDIO: Reconstruir por completo el reproductor para la canción específica
     try {
         if (spotifyAPIInstance) {
             const contenedorGlobal = document.getElementById('contenedor-spotify-global');
-            // Limpiamos el widget anterior por completo
             contenedorGlobal.innerHTML = '<div id="spotify-widget"></div>';
             
-            // Creamos un controlador fresco únicamente enlazado a la ID de la canción final
             spotifyAPIInstance.createController(
                 document.getElementById('spotify-widget'),
                 { uri: 'spotify:track:2Kd1MT5y2CVTJsD9vUc9Yf', width: '100%', height: '100%' },
                 (nuevoController) => {
                     playerController = nuevoController;
-                    // Forzamos el play de la nueva canción directamente y asignamos volumen moderado
                     setTimeout(() => {
                         if(playerController) {
                             playerController.play();
@@ -1027,93 +1031,55 @@ function cerrarMensajeFinal() {
     }, 900);
 }
 
-/* ── Canvas de estrellas ── */
+/* ── Canvas de estrellas (Funciones de cierre reparadas) ── */
 let animFrameId = null;
 let estrellasArr = [];
 
 function iniciarEstrellas() {
     const canvas = document.getElementById('canvas-estrellas');
     const ctx    = canvas.getContext('2d');
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    estrellasArr = Array.from({length: 220}, () => ({
-        x:    Math.random() * canvas.width,
-        y:    Math.random() * canvas.height,
-        r:    Math.random() * 1.6 + 0.3,
-        op:   Math.random(),
-        vel:  Math.random() * 0.008 + 0.003,
-        fase: Math.random() * Math.PI * 2,
-    }));
-
-    let fugaces = [];
-
-    function crearFugaz() {
-        fugaces.push({
+    
+    function ajustarCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    ajustarCanvas();
+    window.addEventListener('resize', ajustarCanvas);
+    
+    estrellasArr = [];
+    for(let i=0; i<120; i++) {
+        estrellasArr.push({
             x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height * 0.5,
-            len: Math.random() * 120 + 60,
-            speed: Math.random() * 6 + 4,
-            op: 1,
-            angle: Math.PI / 5,
-            progress: 0,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 2,
+            alpha: Math.random(),
+            speed: Math.random() * 0.02 + 0.005
         });
     }
-    setInterval(crearFugaz, 2800);
-
-    function draw(t) {
+    
+    function animar() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-        grad.addColorStop(0,   '#05001a');
-        grad.addColorStop(0.5, '#0a0030');
-        grad.addColorStop(1,   '#1a0010');
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        estrellasArr.forEach(s => {
-            s.op = 0.4 + 0.6 * Math.abs(Math.sin(t * s.vel + s.fase));
+        ctx.fillStyle = '#fff';
+        
+        estrellasArr.forEach(e => {
+            e.alpha += e.speed;
+            if(e.alpha > 1 || e.alpha < 0) e.speed = -e.speed;
+            ctx.globalAlpha = Math.max(0, Math.min(1, e.alpha));
             ctx.beginPath();
-            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(255,255,220,${s.op})`;
+            ctx.arc(e.x, e.y, e.size, 0, Math.PI * 2);
             ctx.fill();
         });
-
-        fugaces = fugaces.filter(f => f.op > 0.05);
-        fugaces.forEach(f => {
-            f.progress += f.speed;
-            f.op -= 0.018;
-            const ex = f.x + Math.cos(f.angle) * f.progress;
-            const ey = f.y + Math.sin(f.angle) * f.progress;
-            ctx.beginPath();
-            ctx.moveTo(f.x, f.y);
-            ctx.lineTo(ex, ey);
-            ctx.strokeStyle = `rgba(255,255,200,${f.op})`;
-            ctx.lineWidth = 1.5;
-            ctx.stroke();
-        });
-
-        animFrameId = requestAnimationFrame(draw);
+        
+        animFrameId = requestAnimationFrame(animar);
     }
-    animFrameId = requestAnimationFrame(draw);
+    animar();
 }
 
 function pararEstrellas() {
-    if (animFrameId) {
+    if(animFrameId) {
         cancelAnimationFrame(animFrameId);
-        animFrameId = null;
     }
 }
-
 </script>
-
-<div id="alerta-contador">
-  <p id="alerta-texto">¿Estás segura de que quieres adelantar el reloj? ⏰</p>
-  <div class="alerta-btns">
-    <button class="btn-alerta-no" onclick="cerrarAlerta()">No</button>
-  </div>
-</div>
-<button id="btn-si-volador" class="btn-alerta-si" onclick="alertaEscapar()" style="display:none; position:fixed; z-index:10000;">Sí</button>
-
 </body>
 </html>
