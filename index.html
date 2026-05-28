@@ -209,7 +209,7 @@ button:hover{ transform:scale(1.1); }
     object-fit:cover;
     border:4px solid white;
     box-shadow:0 4px 16px rgba(0,0,0,0.2);
-    cursor:pointer;
+    cursor:zoom-in;
     transition:0.3s;
 }
 .media-foto:hover{ transform:scale(1.05); }
@@ -300,12 +300,47 @@ button:hover{ transform:scale(1.1); }
     to{ transform:translateY(var(--stop-y)) scale(1.2); opacity:0.75; }
 }
 
+/* NUEVO TRUCO DE OCULTACIÓN: Damos tamaño físico (200x200) para engañar al navegador */
+/* y que no congele el reproductor, pero lo hacemos 100% invisible con opacity y z-index */
 .spotify-contenedor-oculto{
     position:absolute !important;
     top:0; left:0;
-    width:300px !important; height:80px !important;
-    opacity:0 !important; z-index:-100 !important;
+    width:200px !important; height:200px !important;
+    opacity:0 !important; 
+    z-index:-100 !important;
     pointer-events:none !important;
+}
+
+/* ── Capa de Imagen Maximizada (Lightbox) ── */
+#overlay-foto {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 99999;
+    justify-content: center;
+    align-items: center;
+    cursor: zoom-out;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+#overlay-foto.abierto {
+    display: flex;
+    opacity: 1;
+}
+#img-grande {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+#overlay-foto.abierto #img-grande {
+    transform: scale(1);
 }
 
 /* ── Alerta escapatoria del contador ── */
@@ -511,15 +546,6 @@ body.peligro #pantalla-principal .card {
   </div>
 </div>
 
-<!-- Estructura de la Alerta del Contador que faltaba en el HTML original -->
-<div id="alerta-contador">
-  <p id="alerta-texto">¿Estás segura de que quieres adelantar el reloj? ⏰</p>
-  <div class="alerta-btns">
-    <button class="btn-alerta-no" onclick="cerrarAlerta()">No</button>
-  </div>
-</div>
-<button id="btn-si-volador" style="display:none; position:fixed; z-index:10000;" onmouseover="alertaEscapar()" onclick="alertaEscapar()">Sí</button>
-
 <div id="pantalla-carousel">
 
   <div class="carousel-title">Personas especiales 💕</div>
@@ -533,84 +559,91 @@ body.peligro #pantalla-principal .card {
          <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Isabel 🌸</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Isabel.jpeg" alt="Isabel" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <img class="media-foto" src="Fotos/Isabel.jpeg" alt="Isabel" onclick="maximizarFoto(this)">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
-            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
+            <span class="hint-cerrar">Toca el nombre para cerrar o haz clic en la foto para agrandar</span>
           </div>
         </div>
 
-        <div class="persona-card">
+         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Joanna 🐬</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Joana.jpeg" alt="Joanna" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <img class="media-foto" src="Fotos/Joana.jpeg" alt="Joanna" onclick="maximizarFoto(this)">
             <video class="media-video" controls src="Videos/Joanna.mp4"></video>
-            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
+            <span class="hint-cerrar">Toca el nombre para cerrar o haz clic en la foto para agrandar</span>
           </div>
         </div>
 
-        <div class="persona-card">
+         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Leonardo 🚲</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Leonardo.jpeg" alt="Leonardo" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <img class="media-foto" src="Fotos/Leonardo.jpeg" alt="Leonardo" onclick="maximizarFoto(this)">
             <video class="media-video" controls src="Videos/Leonardo.mp4"></video>
-            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
+            <span class="hint-cerrar">Toca el nombre para cerrar o haz clic en la foto para agrandar</span>
           </div>
         </div>
 
-        <div class="persona-card">
+         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Lalito 🦋</button>
           <div class="media-contenido">
-            <img class="media-foto" src="https://placehold.co/160x160/fbbf24/fff?text=Lalito" alt="Lalito" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <img class="media-foto" src="https://placehold.co/160x160/fbbf24/fff?text=Lalito" alt="Lalito" onclick="maximizarFoto(this)">
             <video class="media-video" controls src="Videos/Lalito.mp4"></video>
-            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
+            <span class="hint-cerrar">Toca el nombre para cerrar o haz clic en la foto para agrandar</span>
           </div>
         </div>
 
-        <div class="persona-card">
+         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Alessandro 🌊</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Alessandro.jpeg" alt="Alessandro" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <img class="media-foto" src="Fotos/Alessandro.jpeg" alt="Alessandro" onclick="maximizarFoto(this)">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
-            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
+            <span class="hint-cerrar">Toca el nombre para cerrar o haz clic en la foto para agrandar</span>
           </div>
         </div>
 
-        <div class="persona-card">
+         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Sergio 🎵</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Sergio.jpeg" alt="Sergio" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <img class="media-foto" src="Fotos/Sergio.jpeg" alt="Sergio" onclick="maximizarFoto(this)">
             <video class="media-video" controls src="Videos/Sergio.mp4"></video>
-            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
+            <span class="hint-cerrar">Toca el nombre para cerrar o haz clic en la foto para agrandar</span>
           </div>
         </div>
 
-        <div class="persona-card">
+         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Leticia 🐢</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Leticia.jpeg" alt="Leticia" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <img class="media-foto" src="Fotos/Leticia.jpeg" alt="Leticia" onclick="maximizarFoto(this)">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
-            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
+            <span class="hint-cerrar">Toca el nombre para cerrar o haz clic en la foto para agrandar</span>
           </div>
         </div>
         
-        <div class="persona-card">
+         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Omar 🍴</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Omar.jpg" alt="Omar" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <img class="media-foto" src="Fotos/Omar.jpg" alt="Omar" onclick="maximizarFoto(this)">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
-            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
+            <span class="hint-cerrar">Toca el nombre para cerrar o haz clic en la foto para agrandar</span>
           </div>
         </div>
 
-      </div></div><button class="carousel-btn next" onclick="moverCarrusel(1)">→</button>
+       </div></div><button class="carousel-btn next" onclick="moverCarrusel(1)">→</button>
   </div><div class="carousel-dots" id="carousel-dots"></div>
 
   <button class="btn-volver" onclick="cerrarCarrusel()">← Volver a la carta</button>
 
-</div><div id="pantalla-mensaje-final">
+</div>
+
+<div id="pantalla-mensaje-final">
   <canvas id="canvas-estrellas"></canvas>
   <div class="frase-final" id="frase-final-txt"></div>
   <div class="progreso-frases" id="progreso-frases"></div>
+</div>
+
+<!-- Capa externa fija para maximizar imágenes con un clic -->
+<div id="overlay-foto" onclick="minimizarFoto()">
+    <img id="img-grande" src="" alt="Imagen grande">
 </div>
 
 <div class="spotify-contenedor-oculto" id="contenedor-spotify-global">
@@ -637,6 +670,25 @@ function mostrarMensaje(){
 }
 function toggleMusic(){
     if(playerController) playerController.togglePlay();
+}
+
+/* ── Funciones para Maximizar y Minimizar Fotos ── */
+function maximizarFoto(imgElement) {
+    const overlay = document.getElementById('overlay-foto');
+    const imgGrande = document.getElementById('img-grande');
+    imgGrande.src = imgElement.src;
+    overlay.style.display = 'flex';
+    requestAnimationFrame(() => {
+        overlay.classList.add('abierto');
+    });
+}
+
+function minimizarFoto() {
+    const overlay = document.getElementById('overlay-foto');
+    overlay.classList.remove('abierto');
+    setTimeout(() => {
+        overlay.style.display = 'none';
+    }, 300); 
 }
 
 /* ── Contador ── */
@@ -793,7 +845,7 @@ function crearPeligro(){
     setTimeout(()=>{
         const rect = el.getBoundingClientRect();
         el.style.animation = "none";
-        el.style.top  = rect.top   + "px";
+        el.style.top  = rect.top  + "px";
         el.style.left = rect.left + "px";
         el.style.bottom = "auto";
         setTimeout(()=>{
@@ -934,14 +986,15 @@ const frasesMensaje = [
     " ✨"
 ];
 
-let fraseIdx = 0;
+let fraseMensajeIdx = 0;
 let mensajeCorriendo = false;
 
 function abrirMensajeFinal() {
     if (mensajeCorriendo) return;
     mensajeCorriendo = true;
-    fraseIdx = 0;
+    fraseMensajeIdx = 0;
 
+    // 1. ABRIR PANTALLA VISUAL
     const pantalla = document.getElementById('pantalla-mensaje-final');
     pantalla.style.display = 'flex';
     requestAnimationFrame(() => {
@@ -951,27 +1004,16 @@ function abrirMensajeFinal() {
     iniciarEstrellas();
     construirProgreso();
 
-    try {
-        if (spotifyAPIInstance) {
-            const contenedorGlobal = document.getElementById('contenedor-spotify-global');
-            contenedorGlobal.innerHTML = '<div id="spotify-widget"></div>';
-            
-            spotifyAPIInstance.createController(
-                document.getElementById('spotify-widget'),
-                { uri: 'spotify:track:2Kd1MT5y2CVTJsD9vUc9Yf', width: '100%', height: '100%' },
-                (nuevoController) => {
-                    playerController = nuevoController;
-                    setTimeout(() => {
-                        if(playerController) {
-                            playerController.play();
-                            playerController.setVolume(45);
-                        }
-                    }, 400);
-                }
-            );
-        }
-    } catch(err) {
-        console.log("Error controlado al inicializar la pista final:", err);
+    // 2. EJECUCIÓN DE AUDIO DE SPOTIFY (REQUIERE PROTOCOLO HTTPS EN PRODUCCIÓN)
+    if (playerController) {
+        // ID correcto de la canción asignada por ti
+        playerController.loadUri('spotify:track:2Kd1MT5y2CVTJsD9vUc9Yf');
+        
+        // El navegador restringe cambios rápidos en elementos ocultos, aplicamos delay seguro
+        setTimeout(() => {
+            playerController.setVolume(45); // Seteamos el volumen al 45%
+            playerController.play();
+        }, 600);
     }
 
     setTimeout(() => mostrarFrase(0), 600);
@@ -1031,55 +1073,93 @@ function cerrarMensajeFinal() {
     }, 900);
 }
 
-/* ── Canvas de estrellas (Funciones de cierre reparadas) ── */
+/* ── Canvas de estrellas ── */
 let animFrameId = null;
 let estrellasArr = [];
 
 function iniciarEstrellas() {
     const canvas = document.getElementById('canvas-estrellas');
     const ctx    = canvas.getContext('2d');
-    
-    function ajustarCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-    ajustarCanvas();
-    window.addEventListener('resize', ajustarCanvas);
-    
-    estrellasArr = [];
-    for(let i=0; i<120; i++) {
-        estrellasArr.push({
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    estrellasArr = Array.from({length: 220}, () => ({
+        x:    Math.random() * canvas.width,
+        y:    Math.random() * canvas.height,
+        r:    Math.random() * 1.6 + 0.3,
+        op:   Math.random(),
+        vel:  Math.random() * 0.008 + 0.003,
+        fase: Math.random() * Math.PI * 2,
+    }));
+
+    let fugaces = [];
+
+    function crearFugaz() {
+        fugaces.push({
             x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            size: Math.random() * 2,
-            alpha: Math.random(),
-            speed: Math.random() * 0.02 + 0.005
+            y: Math.random() * canvas.height * 0.5,
+            len: Math.random() * 120 + 60,
+            speed: Math.random() * 6 + 4,
+            op: 1,
+            angle: Math.PI / 5,
+            progress: 0,
         });
     }
-    
-    function animar() {
+    setInterval(crearFugaz, 2800);
+
+    function draw(t) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#fff';
-        
-        estrellasArr.forEach(e => {
-            e.alpha += e.speed;
-            if(e.alpha > 1 || e.alpha < 0) e.speed = -e.speed;
-            ctx.globalAlpha = Math.max(0, Math.min(1, e.alpha));
+
+        const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+        grad.addColorStop(0,   '#05001a');
+        grad.addColorStop(0.5, '#0a0030');
+        grad.addColorStop(1,   '#1a0010');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        estrellasArr.forEach(s => {
+            s.op = 0.4 + 0.6 * Math.abs(Math.sin(t * s.vel + s.fase));
             ctx.beginPath();
-            ctx.arc(e.x, e.y, e.size, 0, Math.PI * 2);
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255,255,220,${s.op})`;
             ctx.fill();
         });
-        
-        animFrameId = requestAnimationFrame(animar);
+
+        fugaces = fugaces.filter(f => f.op > 0.05);
+        fugaces.forEach(f => {
+            f.progress += f.speed;
+            f.op -= 0.018;
+            const ex = f.x + Math.cos(f.angle) * f.progress;
+            const ey = f.y + Math.sin(f.angle) * f.progress;
+            ctx.beginPath();
+            ctx.moveTo(f.x, f.y);
+            ctx.lineTo(ex, ey);
+            ctx.strokeStyle = `rgba(255,255,200,${f.op})`;
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+        });
+
+        animFrameId = requestAnimationFrame(draw);
     }
-    animar();
+    animFrameId = requestAnimationFrame(draw);
 }
 
 function pararEstrellas() {
-    if(animFrameId) {
+    if (animFrameId) {
         cancelAnimationFrame(animFrameId);
+        animFrameId = null;
     }
 }
+
 </script>
+
+<div id="alerta-contador">
+  <p id="alerta-texto">¿Estás segura de que quieres adelantar el reloj? ⏰</p>
+  <div class="alerta-btns">
+    <button class="btn-alerta-no" onclick="cerrarAlerta()">No</button>
+  </div>
+</div>
+<button id="btn-si-volador" class="btn-alerta-si" onclick="alertaEscapar()" style="display:none; position:fixed; z-index:10000;">Sí</button>
+
 </body>
 </html>
