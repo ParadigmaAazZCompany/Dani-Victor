@@ -164,7 +164,7 @@ button:hover{ transform:scale(1.1); }
 }
 .btn-nombre:hover{ transform:scale(1.08); box-shadow:0 4px 166px rgba(255,77,109,0.3); }
 
-/* Contenido multimedia oculto por defecto */
+/* Contenido multimedia */
 .media-contenido{
     display:none;
     flex-direction:column;
@@ -428,7 +428,7 @@ body.peligro #pantalla-principal .card {
     transform: translateY(-18px);
 }
 
-/* Botón que aparece cuando el contador llega a 0 */
+/* Botón final (Oculto por defecto, se activa solo al ganar el minijuego) */
 #btn-mensaje-final {
     display: none;
     margin-top: 14px;
@@ -446,7 +446,7 @@ body.peligro #pantalla-principal .card {
 }
 #btn-mensaje-final:hover { transform: scale(1.08) !important; }
 
-/* Indicador de progreso (puntitos) */
+/* Indicador de progreso */
 .progreso-frases {
     position: absolute;
     bottom: 36px;
@@ -514,7 +514,6 @@ body.peligro #pantalla-principal .card {
   <div class="carousel-title">Personas especiales 💕</div>
 
   <div class="carousel-wrapper">
-    <!-- Flecha izq -->
     <button class="carousel-btn prev" onclick="moverCarrusel(-1)">←</button>
 
     <div class="carousel-track-container">
@@ -610,20 +609,16 @@ body.peligro #pantalla-principal .card {
           </div>
         </div>
 
-      </div><!-- /track -->
-    </div><!-- /container -->
+      </div>
+    </div>
 
-    <!-- Flecha der -->
     <button class="carousel-btn next" onclick="moverCarrusel(1)">→</button>
-  </div><!-- /wrapper -->
+  </div>
 
-  <!-- Puntos -->
   <div class="carousel-dots" id="carousel-dots"></div>
-
-  <!-- Botón volver -->
   <button class="btn-volver" onclick="cerrarCarrusel()">← Volver a la carta</button>
 
-</div><!-- /pantalla-carousel -->
+</div>
 
 
 <!-- ══ PANTALLA MENSAJE FINAL ══ -->
@@ -663,15 +658,17 @@ function toggleMusic(){
     if(playerController) playerController.togglePlay();
 }
 
-/* ── Contador ── */
+/* ── Contador Perpetuo (No se autocompleta solo) ── */
 function actualizarContador(){
-    const diff = new Date('2026-05-27T20:00:00') - new Date();
+    const targetDate = new Date('2026-05-30T20:00:00');
+    let diff = targetDate - new Date();
     const btn  = document.getElementById('btn-contador');
-    if(diff <= 0){
-        btn.innerHTML = '🎉 ¡Ya llegó!';
-        document.getElementById('btn-mensaje-final').style.display = 'block';
-        return;
+    
+    // Si la fecha ya pasó en tiempo real, mantenemos un contador estático ficticio para forzar a usar el juego
+    if (diff <= 0) {
+        diff = 14382000; // Forzamos un tiempo de 3h 59m restante de forma estática
     }
+    
     const d=Math.floor(diff/86400000),
           h=Math.floor((diff%86400000)/3600000),
           m=Math.floor((diff%3600000)/60000),
@@ -683,7 +680,7 @@ setInterval(actualizarContador,1000);
 
 /* ── Carrusel ── */
 let indiceActual = 0;
-const total = 9; // 9 Elementos
+const total = 9;
 
 function construirDots(){
     const cont = document.getElementById('carousel-dots');
@@ -713,7 +710,6 @@ function irA(idx){
 
 function moverCarrusel(dir){ irA(indiceActual + dir); }
 
-/* ── Toggle media de cada persona ── */
 function toggleMedia(btn){
     const media = btn.closest('.persona-card').querySelector('.media-contenido');
     const abierto = media.classList.toggle('abierto');
@@ -723,10 +719,9 @@ function toggleMedia(btn){
     }
 }
 
-/* ── Funciones para expandir fotos al tamaño original ── */
+/* ── Expandir fotos ── */
 function abrirFotoGrande(event, imgElement) {
-    if (event) event.stopPropagation(); // Evita que se cierre la tarjeta multimedia al hacer clic
-    
+    if (event) event.stopPropagation(); 
     const modal = document.getElementById('modal-foto-grande');
     const modalImg = document.getElementById('img-modal-target');
     
@@ -902,17 +897,20 @@ function cerrarAlerta() {
     desactivarModoPeligro();
 }
 
+/* Único lugar que activa el botón dorado final (Al ganar el minijuego) */
 function alertaEscapar() {
     alertaIntentos++;
     const alerta = document.getElementById('alerta-contador');
 
     if (alertaIntentos >= alertaMaximo) {
-        document.getElementById('alerta-texto').textContent = "¡Está bien, está bien! 😂 Pero el tiempo sigue igual...";
+        document.getElementById('alerta-texto').textContent = "¡Está bien, está bien! 😂 Te ganaste ver el mensaje...";
         document.querySelector('.alerta-btns').style.display = 'none';
         moverBotonSi();
         setTimeout(() => {
             cerrarAlerta();
             document.querySelector('.alerta-btns').style.display = 'flex';
+            // Mostramos el botón dorado para ver el mensaje final
+            document.getElementById('btn-mensaje-final').style.display = 'block';
         }, 2200);
         return;
     }
