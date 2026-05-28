@@ -80,7 +80,30 @@ button:hover{ transform:scale(1.1); }
 }
 
 .btn-ciao{ font-style:italic; }
-.btn-contador{ line-height:1.4; font-size:0.78rem !important; }
+
+/* Estilo inicial del contador */
+#btn-contador{ 
+    line-height:1.4; 
+    font-size:0.78rem !important; 
+}
+
+/* Clase que transformará el botón del contador en dorado cuando llegue a 0 */
+.transformado-dorado {
+    max-width: none !important;
+    flex: none !important;
+    font-size: 0.95rem !important;
+    font-weight: bold !important;
+    background: linear-gradient(135deg, #ffe066, #ffb347) !important;
+    color: #5a3000 !important;
+    box-shadow: 0 4px 18px rgba(255,200,50,0.45) !important;
+    animation: pulseGold 2s ease-in-out infinite !important;
+}
+
+@keyframes pulseGold {
+    0%,100% { box-shadow: 0 4px 18px rgba(255,200,50,0.45); transform: scale(1); }
+    50%      { box-shadow: 0 6px 28px rgba(255,200,50,0.8); transform: scale(1.05); }
+}
+.transformado-dorado:hover { transform: scale(1.08) !important; }
 
 .hidden{ display:none; opacity:0; margin-top:20px; transition:1s; }
 .show{ display:block; opacity:1; }
@@ -428,28 +451,6 @@ body.peligro #pantalla-principal .card {
     transform: translateY(-18px);
 }
 
-/* Botón que aparece cuando el contador llega a 0 */
-#btn-mensaje-final {
-    display: none;
-    margin-top: 14px;
-    padding: 13px 30px;
-    border-radius: 50px;
-    border: none;
-    background: linear-gradient(135deg, #ffe066, #ffb347);
-    color: #5a3000;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 4px 18px rgba(255,200,50,0.45);
-    animation: pulseGold 2s ease-in-out infinite;
-    max-width: none; flex: none;
-}
-@keyframes pulseGold {
-    0%,100% { box-shadow: 0 4px 18px rgba(255,200,50,0.45); transform: scale(1); }
-    50%      { box-shadow: 0 6px 28px rgba(255,200,50,0.8); transform: scale(1.05); }
-}
-#btn-mensaje-final:hover { transform: scale(1.08) !important; }
-
 /* Indicador de progreso (puntitos) */
 .progreso-frases {
     position: absolute;
@@ -493,7 +494,7 @@ body.peligro #pantalla-principal .card {
       <button onclick="mostrarMensaje()">
         Abrir carta 💌
       </button>
-      <button class="btn-contador" id="btn-contador" onclick="abrirAlerta()">
+      <button id="btn-contador" onclick="abrirAlerta()">
         ⏳ ...
       </button>
     </div>
@@ -505,8 +506,7 @@ body.peligro #pantalla-principal .card {
     <button onclick="toggleMusic()" style="margin-top:20px; max-width:none; flex:none; width:auto;">
       🎵 Play / Pause
     </button>
-
-    <button id="btn-mensaje-final" onclick="abrirMensajeFinal()">✨ Un mensaje te espera</button>
+    
     <div class="music">Nuestra canción 🎶</div>
   </div>
 </div>
@@ -524,7 +524,7 @@ body.peligro #pantalla-principal .card {
          <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Isabel 🌸</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Isabel.jpeg" alt="Isabel" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <img class="media-foto" src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Fotos\Isabel.jpeg" alt="Isabel" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
             <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
@@ -533,8 +533,8 @@ body.peligro #pantalla-principal .card {
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Joanna 🐬</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Joana.jpeg" alt="Joanna" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
-            <video class="media-video" controls src="Videos/Joanna.mp4"></video>
+            <img class="media-foto" src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Fotos\Joana.jpeg" alt="Joanna" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <video class="media-video" controls src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Videos\Joanna.mp4"></video>
             <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
         </div>
@@ -542,8 +542,8 @@ body.peligro #pantalla-principal .card {
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Leonardo 🚲</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Leonardo.jpeg" alt="Leonardo" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
-            <video class="media-video" controls src="Videos/Leonardo.mp4"></video>
+            <img class="media-foto" src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Fotos\Leonardo.jpeg" alt="Leonardo" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <video class="media-video" controls src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Videos\Leonardo.mp4"></video>
             <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
         </div>
@@ -552,7 +552,7 @@ body.peligro #pantalla-principal .card {
           <button class="btn-nombre" onclick="toggleMedia(this)">Lalito 🦋</button>
           <div class="media-contenido">
             <img class="media-foto" src="https://placehold.co/160x160/fbbf24/fff?text=Lalito" alt="Lalito" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
-            <video class="media-video" controls src="Videos/Lalito.mp4"></video>
+            <video class="media-video" controls src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Videos\Lalito.mp4"></video>
             <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
         </div>
@@ -560,7 +560,7 @@ body.peligro #pantalla-principal .card {
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Alessandro 🌊</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Alessandro.jpeg" alt="Alessandro" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <img class="media-foto" src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Fotos\Alessandro.jpeg" alt="Alessandro" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
             <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
@@ -569,8 +569,8 @@ body.peligro #pantalla-principal .card {
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Sergio 🎵</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Sergio.jpeg" alt="Sergio" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
-            <video class="media-video" controls src="Videos/Sergio.mp4"></video>
+            <img class="media-foto" src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Fotos\Sergio.jpeg" alt="Sergio" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <video class="media-video" controls src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Videos\Sergio.mp4"></video>
             <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
         </div>
@@ -578,7 +578,7 @@ body.peligro #pantalla-principal .card {
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Leticia 🐢</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Leticia.jpeg" alt="Leticia" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <img class="media-foto" src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Fotos\Leticia.jpeg" alt="Leticia" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
             <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
@@ -587,16 +587,7 @@ body.peligro #pantalla-principal .card {
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Omar 🍴</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Omar.jpg" alt="Omar" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
-            <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
-            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
-          </div>
-        </div>
-
-        <div class="persona-card">
-          <button class="btn-nombre" onclick="toggleMedia(this)">Arturo 📱</button>
-          <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Arturo.jpg" alt="Arturo" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <img class="media-foto" src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Fotos\Omar.jpg" alt="Omar" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
             <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
@@ -613,7 +604,7 @@ body.peligro #pantalla-principal .card {
   <div class="progreso-frases" id="progreso-frases"></div>
 </div>
 
-<div class="spotify-contenedor-oculto">
+<div class="spotify-contenedor-oculto" id="contenedor-spotify-global">
   <div id="spotify-widget"></div>
 </div>
 
@@ -622,7 +613,10 @@ body.peligro #pantalla-principal .card {
 <script>
 /* ── Spotify ── */
 let playerController = null;
+let spotifyAPIInstance = null; // Guardamos referencia de la API global de Spotify
+
 window.onSpotifyIframeApiReady = (IFrameAPI) => {
+    spotifyAPIInstance = IFrameAPI; // Guardamos la API para reconstruir más tarde
     IFrameAPI.createController(
         document.getElementById('spotify-widget'),
         { uri:'spotify:playlist:5WeYiA1R5UiCl5hen2ixj1', width:'100%', height:'100%' },
@@ -631,7 +625,6 @@ window.onSpotifyIframeApiReady = (IFrameAPI) => {
 };
 function mostrarMensaje(){
     document.getElementById("mensaje").classList.add("show");
-    if(playerController) playerController.play();
 }
 function toggleMusic(){
     if(playerController) playerController.togglePlay();
@@ -639,13 +632,17 @@ function toggleMusic(){
 
 /* ── Contador ── */
 function actualizarContador(){
-    const diff = new Date('2026-05-27T20:00:00') - new Date();
+    const diff = new Date('2026-05-28T10:00:00') - new Date();
     const btn  = document.getElementById('btn-contador');
+    
     if(diff <= 0){
-        btn.innerHTML = '🎉 ¡Ya llegó!';
-        document.getElementById('btn-mensaje-final').style.display = 'block';
+        btn.innerHTML = '✨ Un mensaje te espera'; 
+        btn.onclick = abrirMensajeFinal;          
+        btn.setAttribute("onclick", "abrirMensajeFinal()"); 
+        btn.classList.add('transformado-dorado'); 
         return;
     }
+    
     const d=Math.floor(diff/86400000),
           h=Math.floor((diff%86400000)/3600000),
           m=Math.floor((diff%3600000)/60000),
@@ -657,7 +654,7 @@ setInterval(actualizarContador,1000);
 
 /* ── Carrusel ── */
 let indiceActual = 0;
-const total = 9; // Actualizado a 9 por Arturo
+const total = 8;
 
 function construirDots(){
     const cont = document.getElementById('carousel-dots');
@@ -674,10 +671,7 @@ construirDots();
 
 function irA(idx){
     const tarjetas = document.querySelectorAll('.persona-card');
-    if(tarjetas[indiceActual]){
-        const media = tarjetas[indiceActual].querySelector('.media-contenido');
-        if(media) media.classList.remove('abierto');
-    }
+    tarjetas[indiceActual].querySelector('.media-contenido').classList.remove('abierto');
 
     indiceActual = (idx + total) % total;
     document.getElementById('carousel-track').style.transform =
@@ -690,15 +684,20 @@ function irA(idx){
 
 function moverCarrusel(dir){ irA(indiceActual + dir); }
 
+/* ── Toggle media de cada persona ── */
 function toggleMedia(btn){
     const media = btn.closest('.persona-card').querySelector('.media-contenido');
     const abierto = media.classList.toggle('abierto');
-    if(!abierto){
+    
+    if(abierto){
+        if(playerController) playerController.pause();
+    } else {
         const vid = media.querySelector('video');
         if(vid) vid.pause();
     }
 }
 
+/* ── Navegación entre pantallas ── */
 function abrirCarrusel(){
     const principal  = document.getElementById('pantalla-principal');
     const carrusel   = document.getElementById('pantalla-carousel');
@@ -716,7 +715,7 @@ function cerrarCarrusel(){
     setTimeout(()=>{
         carrusel.style.display='none';
         principal.classList.remove('oculta');
-        irA(0);
+        irA(0); 
     }, 500);
 }
 
@@ -822,9 +821,13 @@ const frases = [
 ];
 
 let alertaIntentos = 0;
-let alertaMaximo = Math.floor(Math.random() * 6) + 3;
+let alertaMaximo = Math.floor(Math.random() * 6) + 3; 
 
 function abrirAlerta() {
+    if(document.getElementById('btn-contador').classList.contains('transformado-dorado')) {
+        return; 
+    }
+
     activarModoPeligro();
     alertaIntentos = 0;
     alertaMaximo = Math.floor(Math.random() * 6) + 3;
@@ -874,7 +877,7 @@ function posicionarSiCercaDeAlerta() {
     btnSi.style.top  = (rect.bottom - 50) + 'px';
 }
 
-function rectsSolapan(ax, ay, aw, ah, bx, by, bw, bh, margen) {
+fn = (ax, ay, aw, ah, bx, by, bw, bh, margen) => {
     return !(ax > bx + bw + margen ||
              ax + aw + margen < bx ||
              ay > by + bh + margen ||
@@ -890,7 +893,7 @@ function moverBotonSi() {
     const aw = alerta.offsetWidth  || 240;
     const ah = alerta.offsetHeight || 130;
 
-    const margen = 30;
+    const margen = 30; 
     let sx, sy, ax, ay, intentos = 0;
 
     do {
@@ -899,7 +902,7 @@ function moverBotonSi() {
         ax = Math.floor(Math.random() * (window.innerWidth  - aw - 20)) + 10;
         ay = Math.floor(Math.random() * (window.innerHeight - ah - 20)) + 10;
         intentos++;
-    } while (rectsSolapan(sx, sy, sw, sh, ax, ay, aw, ah, margen) && intentos < 30);
+    } while (fn(sx, sy, sw, sh, ax, ay, aw, ah, margen) && intentos < 30);
 
     btnSi.style.transition = 'left 0.35s cubic-bezier(.77,0,.18,1), top 0.35s cubic-bezier(.77,0,.18,1)';
     btnSi.style.left = sx + 'px';
@@ -909,6 +912,7 @@ function moverBotonSi() {
     alerta.style.left = ax + 'px';
     alerta.style.top  = ay + 'px';
 }
+
 
 /* ── Pantalla Mensaje Final ── */
 const frasesMensaje = [
@@ -929,6 +933,7 @@ function abrirMensajeFinal() {
     mensajeCorriendo = true;
     fraseIdx = 0;
 
+    // 1. ABRIR PANTALLA VISUAL INSTANTÁNEAMENTE
     const pantalla = document.getElementById('pantalla-mensaje-final');
     pantalla.style.display = 'flex';
     requestAnimationFrame(() => {
@@ -937,6 +942,33 @@ function abrirMensajeFinal() {
 
     iniciarEstrellas();
     construirProgreso();
+
+    // 2. SOLUCIÓN AL AUDIO: Reconstruir por completo el reproductor para la canción específica
+    try {
+        if (spotifyAPIInstance) {
+            const contenedorGlobal = document.getElementById('contenedor-spotify-global');
+            // Limpiamos el widget anterior por completo
+            contenedorGlobal.innerHTML = '<div id="spotify-widget"></div>';
+            
+            // Creamos un controlador fresco únicamente enlazado a la ID de la canción final
+            spotifyAPIInstance.createController(
+                document.getElementById('spotify-widget'),
+                { uri: 'spotify:track:2Kd1MT5y2CVTJsD9vUc9Yf', width: '100%', height: '100%' },
+                (nuevoController) => {
+                    playerController = nuevoController;
+                    // Forzamos el play de la nueva canción directamente y asignamos volumen moderado
+                    setTimeout(() => {
+                        if(playerController) {
+                            playerController.play();
+                            playerController.setVolume(45);
+                        }
+                    }, 400);
+                }
+            );
+        }
+    } catch(err) {
+        console.log("Error controlado al inicializar la pista final:", err);
+    }
 
     setTimeout(() => mostrarFrase(0), 600);
 }
@@ -964,7 +996,7 @@ function mostrarFrase(idx) {
 
     el.textContent = frasesMensaje[idx];
     el.classList.remove('desaparece');
-    void el.offsetWidth;
+    void el.offsetWidth; 
     el.classList.add('aparece');
 
     const esUltima = idx === frasesMensaje.length - 1;
@@ -1027,7 +1059,7 @@ function iniciarEstrellas() {
             progress: 0,
         });
     }
-    let intervalFugaz = setInterval(crearFugaz, 2800);
+    setInterval(crearFugaz, 2800);
 
     function draw(t) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -1072,6 +1104,7 @@ function pararEstrellas() {
         animFrameId = null;
     }
 }
+
 </script>
 
 <div id="alerta-contador">
