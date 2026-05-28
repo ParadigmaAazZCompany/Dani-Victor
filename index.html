@@ -139,7 +139,6 @@ button:hover{ transform:scale(1.1); }
     max-width:95vw;
 }
 
-/* Título del carrusel */
 .carousel-title{
     color:white;
     font-size:1.5rem;
@@ -149,7 +148,6 @@ button:hover{ transform:scale(1.1); }
     text-shadow:0 2px 8px rgba(0,0,0,0.2);
 }
 
-/* Track de tarjetas */
 .carousel-track-container{
     overflow:hidden;
     border-radius:24px;
@@ -159,7 +157,6 @@ button:hover{ transform:scale(1.1); }
     transition: transform 0.45s cubic-bezier(.77,0,.18,1);
 }
 
-/* Tarjeta de persona */
 .persona-card{
     min-width:100%;
     background:rgba(255,255,255,0.18);
@@ -171,7 +168,6 @@ button:hover{ transform:scale(1.1); }
     box-shadow:0 8px 30px rgba(0,0,0,0.15);
 }
 
-/* Botón nombre */
 .btn-nombre{
     background:white;
     color:#ff4d6d;
@@ -187,7 +183,6 @@ button:hover{ transform:scale(1.1); }
 }
 .btn-nombre:hover{ transform:scale(1.08); box-shadow:0 4px 16px rgba(255,77,109,0.3); }
 
-/* Contenido multimedia oculto por defecto */
 .media-contenido{
     display:none;
     flex-direction:column;
@@ -227,7 +222,6 @@ button:hover{ transform:scale(1.1); }
     margin-top:4px;
 }
 
-/* Flechas del carrusel */
 .carousel-btn{
     position:absolute;
     top:50%;
@@ -249,7 +243,6 @@ button:hover{ transform:scale(1.1); }
 .carousel-btn.prev{ left:-50px; }
 .carousel-btn.next{ right:-50px; }
 
-/* Puntos indicadores */
 .carousel-dots{
     display:flex;
     gap:8px;
@@ -265,7 +258,6 @@ button:hover{ transform:scale(1.1); }
 }
 .dot.activo{ background:white; transform:scale(1.3); }
 
-/* Botón volver */
 .btn-volver{
     margin-top:16px;
     background:rgba(255,255,255,0.25);
@@ -300,14 +292,34 @@ button:hover{ transform:scale(1.1); }
     to{ transform:translateY(var(--stop-y)) scale(1.2); opacity:0.75; }
 }
 
-/* El reproductor mantiene tamaño físico real pero está completamente oculto */
-.spotify-contenedor-oculto{
-    position:absolute !important;
-    top:0; left:0;
-    width:250px !important; height:100px !important;
-    opacity:0 !important; 
-    z-index:-100 !important;
-    pointer-events:none !important;
+/* ════════════════════════════
+   ESTILOS CONTROL DE SPOTIFY (CORREGIDO)
+════════════════════════════ */
+#contenedor-spotify-global {
+    position: absolute !important;
+    top: 0; left: 0;
+    width: 300px !important; height: 80px !important;
+    opacity: 0 !important; 
+    z-index: -100 !important;
+    pointer-events: none !important;
+    transition: all 0.6s ease;
+}
+
+/* Clase dinámica que se activará SOLO en la pantalla final para liberar el audio */
+#contenedor-spotify-global.mostrar-reproductor-final {
+    opacity: 1 !important;
+    z-index: 200 !important;
+    pointer-events: auto !important;
+    top: auto !important;
+    bottom: 40px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 360px !important;
+    max-width: 90vw !important;
+    height: 85px !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6) !important;
 }
 
 /* ── Capa de Imagen Maximizada (Lightbox) ── */
@@ -488,7 +500,7 @@ body.peligro #pantalla-principal .card {
 /* Indicador de progreso (puntitos) */
 .progreso-frases {
     position: absolute;
-    bottom: 36px;
+    bottom: 150px; /* Subido para dejar espacio al reproductor */
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -546,12 +558,9 @@ body.peligro #pantalla-principal .card {
 </div>
 
 <div id="pantalla-carousel">
-
   <div class="carousel-title">Personas especiales 💕</div>
-
   <div class="carousel-wrapper">
     <button class="carousel-btn prev" onclick="moverCarrusel(-1)">←</button>
-
     <div class="carousel-track-container">
       <div class="carousel-track" id="carousel-track">
 
@@ -629,9 +638,7 @@ body.peligro #pantalla-principal .card {
 
        </div></div><button class="carousel-btn next" onclick="moverCarrusel(1)">→</button>
   </div><div class="carousel-dots" id="carousel-dots"></div>
-
   <button class="btn-volver" onclick="cerrarCarrusel()">← Volver a la carta</button>
-
 </div>
 
 <div id="pantalla-mensaje-final">
@@ -640,12 +647,12 @@ body.peligro #pantalla-principal .card {
   <div class="progreso-frases" id="progreso-frases"></div>
 </div>
 
-<!-- Capa externa fija para maximizar imágenes con un clic -->
 <div id="overlay-foto" onclick="minimizarFoto()">
     <img id="img-grande" src="" alt="Imagen grande">
 </div>
 
-<div class="spotify-contenedor-oculto" id="contenedor-spotify-global">
+<!-- Contenedor global de Spotify -->
+<div id="contenedor-spotify-global">
   <div id="spotify-widget"></div>
 </div>
 
@@ -674,20 +681,15 @@ function toggleMusic(){
 /* ── Funciones para Maximizar y Minimizar Fotos ── */
 function maximizarFoto(imgElement) {
     const overlay = document.getElementById('overlay-foto');
-    const imgGrande = document.getElementById('img-grande');
-    imgGrande.src = imgElement.src;
+    document.getElementById('img-grande').src = imgElement.src;
     overlay.style.display = 'flex';
-    requestAnimationFrame(() => {
-        overlay.classList.add('abierto');
-    });
+    requestAnimationFrame(() => { overlay.classList.add('abierto'); });
 }
 
 function minimizarFoto() {
     const overlay = document.getElementById('overlay-foto');
     overlay.classList.remove('abierto');
-    setTimeout(() => {
-        overlay.style.display = 'none';
-    }, 300); 
+    setTimeout(() => { overlay.style.display = 'none'; }, 300); 
 }
 
 /* ── Contador ── */
@@ -699,7 +701,7 @@ function actualizarContador(){
         btn.innerHTML = '✨ Un mensaje te espera'; 
         btn.onclick = abrirMensajeFinal;          
         btn.setAttribute("onclick", "abrirMensajeFinal()"); 
-        btn.classList.add('transformado-dorado'); 
+        btn.classList.add('transformado-dorado');[cite: 2]
         return;
     }
     
@@ -734,21 +736,16 @@ function irA(idx){
     tarjetas[indiceActual].querySelector('.media-contenido').classList.remove('abierto');
 
     indiceActual = (idx + total) % total;
-    document.getElementById('carousel-track').style.transform =
-        `translateX(-${indiceActual * 100}%)`;
+    document.getElementById('carousel-track').style.transform = `translateX(-${indiceActual * 100}%)`;
 
-    document.querySelectorAll('.dot').forEach((d,i)=>{
-        d.classList.toggle('activo', i===indiceActual);
-    });
+    document.querySelectorAll('.dot').forEach((d,i)=>{ d.classList.toggle('activo', i===indiceActual); });
 }
 
 function moverCarrusel(dir){ irA(indiceActual + dir); }
 
-/* ── Toggle media de cada persona ── */
 function toggleMedia(btn){
     const media = btn.closest('.persona-card').querySelector('.media-contenido');
     const abierto = media.classList.toggle('abierto');
-    
     if(abierto){
         if(playerController) playerController.pause();
     } else {
@@ -757,15 +754,12 @@ function toggleMedia(btn){
     }
 }
 
-/* ── Navegación entre pantallas ── */
 function abrirCarrusel(){
     const principal  = document.getElementById('pantalla-principal');
     const carrusel   = document.getElementById('pantalla-carousel');
     principal.classList.add('oculta');
     carrusel.style.display = 'flex';
-    requestAnimationFrame(()=>{
-        requestAnimationFrame(()=> carrusel.classList.add('visible'));
-    });
+    requestAnimationFrame(()=>{ requestAnimationFrame(()=> carrusel.classList.add('visible')); });
 }
 
 function cerrarCarrusel(){
@@ -781,10 +775,8 @@ function cerrarCarrusel(){
 
 /* ── Corazones / Peligro ── */
 const frasesPeligro = [
-    "⚠️ PELIGRO", "🚨 ALERTA", "☢️ CUIDADO",
-    "🔴 STOP", "⛔ ERROR", "💀 PELIGRO",
-    "🚫 NO", "🆘 AYUDA", "⚡ DANGER",
-    "🔥 WARNING", "☠️ RIESGO", "📛 ALTO"
+    "⚠️ PELIGRO", "🚨 ALERTA", "☢️ CUIDADO", "🔴 STOP", "⛔ ERROR", 
+    "💀 PELIGRO", "🚫 NO", "🆘 AYUDA", "⚡ DANGER", "🔥 WARNING", "☠️ RIESGO", "📛 ALTO"
 ];
 
 let modoPeligro = false;
@@ -825,8 +817,7 @@ function crearCorazon(){
 function crearPeligro(){
     const el = document.createElement("div");
     el.classList.add("peligro-txt");
-    const frase = frasesPeligro[Math.floor(Math.random() * frasesPeligro.length)];
-    el.textContent = frase;
+    el.textContent = frasesPeligro[Math.floor(Math.random() * frasesPeligro.length)];
     const size = Math.random()*18+14;
     el.style.fontSize = size + "px";
     el.style.color = Math.random() > 0.5 ? "#ffffff" : "#ffff00";
@@ -884,21 +875,18 @@ let alertaIntentos = 0;
 let alertaMaximo = Math.floor(Math.random() * 6) + 3; 
 
 function abrirAlerta() {
-    if(document.getElementById('btn-contador').classList.contains('transformado-dorado')) {
+    if(document.getElementById('btn-contador').classList.contains('transformado-dorado')) {[cite: 2]
         return; 
     }
-
     activarModoPeligro();
     alertaIntentos = 0;
     alertaMaximo = Math.floor(Math.random() * 6) + 3;
     document.getElementById('alerta-texto').textContent = frases[0];
     const alerta = document.getElementById('alerta-contador');
-    alerta.style.left = '50%';
-    alerta.style.top  = '50%';
+    alerta.style.left = '50%'; alerta.style.top  = '50%';
     alerta.style.transform = 'translate(-50%, -50%)';
     alerta.classList.add('visible');
-    const btnSi = document.getElementById('btn-si-volador');
-    btnSi.style.display = 'block';
+    document.getElementById('btn-si-volador').style.display = 'block';
     posicionarSiCercaDeAlerta();
 }
 
@@ -923,9 +911,7 @@ function alertaEscapar() {
         }, 2200);
         return;
     }
-
-    const fraseIdx = Math.min(alertaIntentos, frases.length - 1);
-    document.getElementById('alerta-texto').textContent = frases[fraseIdx];
+    document.getElementById('alerta-texto').textContent = frases[Math.min(alertaIntentos, frases.length - 1)];
     moverBotonSi();
 }
 
@@ -933,28 +919,19 @@ function posicionarSiCercaDeAlerta() {
     const alerta = document.getElementById('alerta-contador');
     const btnSi  = document.getElementById('btn-si-volador');
     const rect   = alerta.getBoundingClientRect();
-    btnSi.style.left = (rect.left + 16) + 'px';
-    btnSi.style.top  = (rect.bottom - 50) + 'px';
+    btnSi.style.left = (rect.left + 16) + 'px'; btnSi.style.top  = (rect.bottom - 50) + 'px';
 }
 
 fn = (ax, ay, aw, ah, bx, by, bw, bh, margen) => {
-    return !(ax > bx + bw + margen ||
-             ax + aw + margen < bx ||
-             ay > by + bh + margen ||
-             ay + ah + margen < by);
+    return !(ax > bx + bw + margen || ax + aw + margen < bx || ay > by + bh + margen || ay + ah + margen < by);
 }
 
 function moverBotonSi() {
     const btnSi  = document.getElementById('btn-si-volador');
     const alerta = document.getElementById('alerta-contador');
-
-    const sw = btnSi.offsetWidth  || 60;
-    const sh = btnSi.offsetHeight || 36;
-    const aw = alerta.offsetWidth  || 240;
-    const ah = alerta.offsetHeight || 130;
-
-    const margen = 30; 
-    let sx, sy, ax, ay, intentos = 0;
+    const sw = btnSi.offsetWidth || 60, sh = btnSi.offsetHeight || 36;
+    const aw = alerta.offsetWidth || 240, ah = alerta.offsetHeight || 130;
+    const margen = 30; let sx, sy, ax, ay, intentos = 0;
 
     do {
         sx = Math.floor(Math.random() * (window.innerWidth  - sw - 20)) + 10;
@@ -965,14 +942,9 @@ function moverBotonSi() {
     } while (fn(sx, sy, sw, sh, ax, ay, aw, ah, margen) && intentos < 30);
 
     btnSi.style.transition = 'left 0.35s cubic-bezier(.77,0,.18,1), top 0.35s cubic-bezier(.77,0,.18,1)';
-    btnSi.style.left = sx + 'px';
-    btnSi.style.top  = sy + 'px';
-
-    alerta.style.transform = 'none';
-    alerta.style.left = ax + 'px';
-    alerta.style.top  = ay + 'px';
+    btnSi.style.left = sx + 'px'; btnSi.style.top  = sy + 'px';
+    alerta.style.transform = 'none'; alerta.style.left = ax + 'px'; alerta.style.top  = ay + 'px';
 }
-
 
 /* ── Pantalla Mensaje Final ── */
 const frasesMensaje = [
@@ -996,39 +968,24 @@ function abrirMensajeFinal() {
     // 1. ABRIR PANTALLA VISUAL
     const pantalla = document.getElementById('pantalla-mensaje-final');
     pantalla.style.display = 'flex';
-    requestAnimationFrame(() => {
-        requestAnimationFrame(() => pantalla.classList.add('visible'));
-    });
+    requestAnimationFrame(() => { requestAnimationFrame(()=> pantalla.classList.add('visible')); });
 
     iniciarEstrellas();
     construirProgreso();
 
-    // 2. RECONSTRUCCIÓN DE AUDIO TOTALMENTE ASEGURADA
-    if (spotifyAPIInstance) {
-        try {
-            const contenedorGlobal = document.getElementById('contenedor-spotify-global');
-            // Eliminamos físicamente el iframe anterior para limpiar la memoria de reproducción
-            contenedorGlobal.innerHTML = '<div id="spotify-widget"></div>';
-            
-            // Creamos un nuevo controlador exclusivo para el Track definitivo de tu canción
-            spotifyAPIInstance.createController(
-                document.getElementById('spotify-widget'),
-                { uri: 'spotify:track:2Kd1MT5y2CVTJsD9vUc9Yf', width: '100%', height: '100%' },
-                (nuevoController) => {
-                    playerController = nuevoController;
-                    
-                    // Delay controlado para esperar que el iframe de Spotify monte los permisos de volumen del DOM
-                    setTimeout(() => {
-                        if (playerController) {
-                            playerController.setVolume(45); // Seteamos el volumen al 45% (Moderado)
-                            playerController.play();
-                        }
-                    }, 600);
-                }
-            );
-        } catch (err) {
-            console.log("Error controlado de montaje:", err);
-        }
+    // 2. CAMBIO VISUAL DEL REPRODUCTOR PARA FORZAR EL AUDIO
+    const contenedorGlobal = document.getElementById('contenedor-spotify-global');
+    contenedorGlobal.classList.add('mostrar-reproductor-final'); // Volvemos visible el reproductor abajo al centro
+
+    if (playerController) {
+        // Cambia la playlist por tu track definitivo
+        playerController.loadUri('spotify:track:2Kd1MT5y2CVTJsD9vUc9Yf');
+        
+        // Ejecutamos Play con volumen moderado (45%) aprovechando que ya es visible en el DOM
+        setTimeout(() => {
+            playerController.setVolume(45);[cite: 2]
+            playerController.play();
+        }, 500);
     }
 
     setTimeout(() => mostrarFrase(0), 600);
@@ -1081,6 +1038,11 @@ function mostrarFrase(idx) {
 function cerrarMensajeFinal() {
     const pantalla = document.getElementById('pantalla-mensaje-final');
     pantalla.classList.remove('visible');
+    
+    // Devolvemos el reproductor a su estado oculto al salir
+    const contenedorGlobal = document.getElementById('contenedor-spotify-global');
+    contenedorGlobal.classList.remove('mostrar-reproductor-final');
+
     setTimeout(() => {
         pantalla.style.display = 'none';
         mensajeCorriendo = false;
@@ -1108,64 +1070,41 @@ function iniciarEstrellas() {
     }));
 
     let fugaces = [];
-
     function crearFugaz() {
         fugaces.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height * 0.5,
-            len: Math.random() * 120 + 60,
-            speed: Math.random() * 6 + 4,
-            op: 1,
-            angle: Math.PI / 5,
-            progress: 0,
+            x: Math.random() * canvas.width, y: Math.random() * canvas.height * 0.5,
+            len: Math.random() * 120 + 60, speed: Math.random() * 6 + 4, op: 1,
+            angle: Math.PI / 5, progress: 0,
         });
     }
     setInterval(crearFugaz, 2800);
 
     function draw(t) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
         const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-        grad.addColorStop(0,   '#05001a');
-        grad.addColorStop(0.5, '#0a0030');
-        grad.addColorStop(1,   '#1a0010');
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        grad.addColorStop(0, '#05001a'); grad.addColorStop(0.5, '#0a0030'); grad.addColorStop(1, '#1a0010');
+        ctx.fillStyle = grad; ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         estrellasArr.forEach(s => {
             s.op = 0.4 + 0.6 * Math.abs(Math.sin(t * s.vel + s.fase));
-            ctx.beginPath();
-            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(255,255,220,${s.op})`;
-            ctx.fill();
+            ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255,255,220,${s.op})`; ctx.fill();
         });
 
         fugaces = fugaces.filter(f => f.op > 0.05);
         fugaces.forEach(f => {
-            f.progress += f.speed;
-            f.op -= 0.018;
+            f.progress += f.speed; f.op -= 0.018;
             const ex = f.x + Math.cos(f.angle) * f.progress;
             const ey = f.y + Math.sin(f.angle) * f.progress;
-            ctx.beginPath();
-            ctx.moveTo(f.x, f.y);
-            ctx.lineTo(ex, ey);
-            ctx.strokeStyle = `rgba(255,255,200,${f.op})`;
-            ctx.lineWidth = 1.5;
-            ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(f.x, f.y); ctx.lineTo(ex, ey);
+            ctx.strokeStyle = `rgba(255,255,200,${f.op})`; ctx.lineWidth = 1.5; ctx.stroke();
         });
-
         animFrameId = requestAnimationFrame(draw);
     }
     animFrameId = requestAnimationFrame(draw);
 }
 
-function pararEstrellas() {
-    if (animFrameId) {
-        cancelAnimationFrame(animFrameId);
-        animFrameId = null;
-    }
-}
-
+function pararEstrellas() { if (animFrameId) { cancelAnimationFrame(animFrameId); animFrameId = null; } }
 </script>
 
 <div id="alerta-contador">
