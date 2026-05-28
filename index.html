@@ -162,9 +162,9 @@ button:hover{ transform:scale(1.1); }
     margin-bottom:18px;
     display:inline-block;
 }
-.btn-nombre:hover{ transform:scale(1.08); box-shadow:0 4px 166px rgba(255,77,109,0.3); }
+.btn-nombre:hover{ transform:scale(1.08); box-shadow:0 4px 16px rgba(255,77,109,0.3); }
 
-/* Contenido multimedia */
+/* Contenido multimedia oculto por defecto */
 .media-contenido{
     display:none;
     flex-direction:column;
@@ -310,9 +310,6 @@ button:hover{ transform:scale(1.1); }
 }
 .alerta-btns { display: flex; gap: 10px; justify-content: center; }
 #btn-si-volador {
-    position: fixed;
-    display: none;
-    z-index: 10000;
     padding: 8px 20px;
     border-radius: 50px;
     font-size: 0.85rem;
@@ -320,8 +317,10 @@ button:hover{ transform:scale(1.1); }
     border: none;
     background: #ff4d6d;
     color: white;
+    transition: none !important;
     box-shadow: 0 4px 14px rgba(255,77,109,0.4);
 }
+#btn-si-volador:hover { transform: none !important; }
 .alerta-btns button {
     padding: 8px 20px;
     border-radius: 50px;
@@ -330,7 +329,9 @@ button:hover{ transform:scale(1.1); }
     border: none;
     flex: none; max-width: none;
 }
+.btn-alerta-si { background: #ff4d6d; color: white; }
 .btn-alerta-no { background: #eee; color: #555; }
+.btn-alerta-si:hover { background: #e03050; transform: scale(1.08); }
 .btn-alerta-no:hover { background: #ddd; transform: scale(1.08); }
 
 /* ── MODO PELIGRO ── */
@@ -427,7 +428,7 @@ body.peligro #pantalla-principal .card {
     transform: translateY(-18px);
 }
 
-/* Botón final */
+/* Botón que aparece cuando el contador llega a 0 */
 #btn-mensaje-final {
     display: none;
     margin: 20px auto 0 auto;
@@ -440,11 +441,16 @@ body.peligro #pantalla-principal .card {
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 4px 18px rgba(255,200,50,0.45);
+    animation: pulseGold 2s ease-in-out infinite;
     max-width: none; flex: none;
+}
+@keyframes pulseGold {
+    0%,100% { box-shadow: 0 4px 18px rgba(255,200,50,0.45); transform: scale(1); }
+    50%      { box-shadow: 0 6px 28px rgba(255,200,50,0.8); transform: scale(1.05); }
 }
 #btn-mensaje-final:hover { transform: scale(1.08) !important; }
 
-/* Indicador de progreso */
+/* Indicador de progreso (puntitos) */
 .progreso-frases {
     position: absolute;
     bottom: 36px;
@@ -471,7 +477,6 @@ body.peligro #pantalla-principal .card {
 </head>
 <body>
 
-<!-- ══ PANTALLA PRINCIPAL ══ -->
 <div id="pantalla-principal">
   <div class="card">
     <h1>Dani Girl</h1>
@@ -500,133 +505,109 @@ body.peligro #pantalla-principal .card {
     <button onclick="toggleMusic()" style="margin-top:20px; max-width:none; flex:none; width:auto;">
       🎵 Play / Pause
     </button>
-
+    
     <button id="btn-mensaje-final" onclick="abrirMensajeFinal()">✨ Un mensaje te espera</button>
+
     <div class="music">Nuestra canción 🎶</div>
   </div>
 </div>
 
-<!-- ══ PANTALLA CARRUSEL ══ -->
 <div id="pantalla-carousel">
+
   <div class="carousel-title">Personas especiales 💕</div>
+
   <div class="carousel-wrapper">
     <button class="carousel-btn prev" onclick="moverCarrusel(-1)">←</button>
+
     <div class="carousel-track-container">
       <div class="carousel-track" id="carousel-track">
-         <!-- Isabel -->
-        <div class="persona-card">
+
+         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Isabel 🌸</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Isabel.jpeg" alt="Isabel" onclick="abrirFotoGrande(event, this)">
+            <img class="media-foto" src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Fotos\Isabel.jpeg" alt="Isabel" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
-            <span class="hint-cerrar">Toca la foto para expandir</span>
+            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
         </div>
-        <!-- Joanna -->
+
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Joanna 🐬</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Joana.jpeg" alt="Joanna" onclick="abrirFotoGrande(event, this)">
-            <video class="media-video" controls src="Videos/Joanna.mp4"></video>
-            <span class="hint-cerrar">Toca la foto para expandir</span>
+            <img class="media-foto" src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Fotos\Joana.jpeg" alt="Joanna" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <video class="media-video" controls src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Videos\Joanna.mp4"></video>
+            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
         </div>
-        <!-- Leonardo -->
+
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Leonardo 🚲</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Leonardo.jpeg" alt="Leonardo" onclick="abrirFotoGrande(event, this)">
-            <video class="media-video" controls src="Videos/Leonardo.mp4"></video>
-            <span class="hint-cerrar">Toca la foto para expandir</span>
+            <img class="media-foto" src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Fotos\Leonardo.jpeg" alt="Leonardo" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <video class="media-video" controls src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Videos\Leonardo.mp4"></video>
+            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
         </div>
-        <!-- Lalito -->
+
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Lalito 🦋</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Lalito.jpeg" alt="Lalito" onclick="abrirFotoGrande(event, this)">
-            <video class="media-video" controls src="Videos/Lalito.mp4"></video>
-            <span class="hint-cerrar">Toca la foto para expandir</span>
+            <img class="media-foto" src="https://placehold.co/160x160/fbbf24/fff?text=Lalito" alt="Lalito" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <video class="media-video" controls src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Videos\Lalito.mp4"></video>
+            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
         </div>
-        <!-- Alessandro -->
+
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Alessandro 🌊</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Alessandro.jpeg" alt="Alessandro" onclick="abrirFotoGrande(event, this)">
+            <img class="media-foto" src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Fotos\Alessandro.jpeg" alt="Alessandro" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
-            <span class="hint-cerrar">Toca la foto para expandir</span>
+            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
         </div>
-        <!-- Sergio -->
+
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Sergio 🎵</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Sergio.jpeg" alt="Sergio" onclick="abrirFotoGrande(event, this)">
-            <video class="media-video" controls src="Videos/Sergio.mp4"></video>
-            <span class="hint-cerrar">Toca la foto para expandir</span>
+            <img class="media-foto" src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Fotos\Sergio.jpeg" alt="Sergio" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <video class="media-video" controls src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Videos\Sergio.mp4"></video>
+            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
         </div>
-        <!-- Leticia -->
+
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Leticia 🐢</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Leticia.jpeg" alt="Leticia" onclick="abrirFotoGrande(event, this)">
+            <img class="media-foto" src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Fotos\Leticia.jpeg" alt="Leticia" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
-            <span class="hint-cerrar">Toca la foto para expandir</span>
+            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
         </div>
-        <!-- Omar -->
+        
         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Omar 🍴</button>
           <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Omar.jpg" alt="Omar" onclick="abrirFotoGrande(event, this)">
+            <img class="media-foto" src="C:\Users\SISTEMASDGU\OneDrive\Desktop\Carta Despedida\Carta\Fotos\Omar.jpg" alt="Omar" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
-            <span class="hint-cerrar">Toca la foto para expandir</span>
+            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
         </div>
-        <!-- Arturo -->
-        <div class="persona-card">
-          <button class="btn-nombre" onclick="toggleMedia(this)">Arturo 💬</button>
-          <div class="media-contenido">
-            <img class="media-foto" src="Fotos/Arturo.png" alt="Arturo" onclick="abrirFotoGrande(event, this)">
-            <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
-            <span class="hint-cerrar">Toca la foto para expandir</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <button class="carousel-btn next" onclick="moverCarrusel(1)">→</button>
-  </div>
-  <div class="carousel-dots" id="carousel-dots"></div>
-  <button class="btn-volver" onclick="cerrarCarrusel()">← Volver a la carta</button>
-</div>
 
-<!-- ══ PANTALLA MENSAJE FINAL ══ -->
-<div id="pantalla-mensaje-final">
+      </div></div><button class="carousel-btn next" onclick="moverCarrusel(1)">→</button>
+  </div><div class="carousel-dots" id="carousel-dots"></div>
+
+  <button class="btn-volver" onclick="cerrarCarrusel()">← Volver a la carta</button>
+
+</div><div id="pantalla-mensaje-final">
   <canvas id="canvas-estrellas"></canvas>
   <div class="frase-final" id="frase-final-txt"></div>
   <div class="progreso-frases" id="progreso-frases"></div>
 </div>
 
-<!-- ══ MODAL PARA VER FOTO EN TAMAÑO ORIGINAL ══ -->
-<div id="modal-foto-grande" onclick="cerrarFotoGrande()" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.9); z-index:999999; justify-content:center; align-items:center; opacity:0; transition:opacity 0.3s ease; cursor:zoom-out;">
-  <img id="img-modal-target" src="" alt="Foto grande" style="max-width:95vw; max-height:95vh; object-fit:contain; border-radius:8px; box-shadow:0 10px 40px rgba(0,0,0,0.8); transform:scale(0.9); transition:transform 0.3s ease;">
-</div>
-
-<!-- Spotify oculto -->
 <div class="spotify-contenedor-oculto">
   <div id="spotify-widget"></div>
 </div>
-
-<!-- ══ CONTENEDORES DE ALERTA CORREGIDOS ══ -->
-<div id="alerta-contador">
-    <p id="alerta-texto"></p>
-    <div class="alerta-btns">
-        <button class="btn-alerta-no" onclick="cerrarAlerta()">Cancelar</button>
-    </div>
-</div>
-<button id="btn-si-volador" onclick="alertaEscapar()">Sí</button>
 
 <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
 
@@ -648,28 +629,40 @@ function toggleMusic(){
     if(playerController) playerController.togglePlay();
 }
 
-/* ── Contador Perpetuo ── */
+/* ── LÓGICA DEL CONTADOR CORREGIDA ── */
+// IMPORTANTE: Cambia esta fecha a la fecha futura que desees. 
+// Cuando se cumpla o pase, el contador cambiará automáticamente al botón dorado de manera limpia.
+const FECHA_OBJETIVO = new Date('2026-05-27T20:00:00'); 
+
 function actualizarContador(){
-    const targetDate = new Date('2026-05-27T20:00:00');
-    let diff = targetDate - new Date();
-    const btn = document.getElementById('btn-contador');
+    const diff = FECHA_OBJETIVO - new Date();
+    const btnContador = document.getElementById('btn-contador');
+    const btnDorado = document.getElementById('btn-mensaje-final');
     
+    // Si el tiempo se acabó o ya pasó la fecha
     if (diff <= 0) {
-        diff = 14382000; 
+        btnContador.innerHTML = '🎉 ¡Ya llegó!';
+        btnDorado.style.display = 'block'; // Muestra el botón dorado dinámicamente
+        return;
     }
     
-    const d=Math.floor(diff/86400000),
-          h=Math.floor((diff%86400000)/3600000),
-          m=Math.floor((diff%3600000)/60000),
-          s=Math.floor((diff%60000)/1000);
-    btn.innerHTML=`⏳ ${d}d ${h}h ${m}m ${s}s`;
+    // Si la fecha es futura, ocultamos el botón dorado por seguridad y calculamos el tiempo
+    btnDorado.style.display = 'none';
+    
+    const d = Math.floor(diff / 86400000),
+          h = Math.floor((diff % 86400000) / 3600000),
+          m = Math.floor((diff % 3600000) / 60000),
+          s = Math.floor((diff % 60000) / 1000);
+          
+    btnContador.innerHTML = `⏳ ${d}d ${h}h ${m}m ${s}s`;
 }
+// Ejecutar inmediatamente y luego refrescar cada segundo
 actualizarContador();
-setInterval(actualizarContador,1000);
+setInterval(actualizarContador, 1000);
 
 /* ── Carrusel ── */
 let indiceActual = 0;
-const total = 9;
+const total = 8;
 
 function construirDots(){
     const cont = document.getElementById('carousel-dots');
@@ -686,8 +679,9 @@ construirDots();
 
 function irA(idx){
     const tarjetas = document.querySelectorAll('.persona-card');
-    if(tarjetas[indiceActual]) {
-        tarjetas[indiceActual].querySelector('.media-contenido').classList.remove('abierto');
+    if(tarjetas[indiceActual]){
+        const media = tarjetas[indiceActual].querySelector('.media-contenido');
+        if(media) media.classList.remove('abierto');
     }
 
     indiceActual = (idx + total) % total;
@@ -709,40 +703,9 @@ function toggleMedia(btn){
     }
 }
 
-/* ── Expandir fotos ── */
-function abrirFotoGrande(event, imgElement) {
-    if (event) event.stopPropagation(); 
-    const modal = document.getElementById('modal-foto-grande');
-    const modalImg = document.getElementById('img-modal-target');
-    
-    modalImg.src = imgElement.src;
-    modal.style.display = 'flex';
-    
-    requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-            modal.style.opacity = '1';
-            modalImg.style.transform = 'scale(1)';
-        });
-    });
-}
-
-function cerrarFotoGrande() {
-    const modal = document.getElementById('modal-foto-grande');
-    const modalImg = document.getElementById('img-modal-target');
-    
-    modal.style.opacity = '0';
-    modalImg.style.transform = 'scale(0.9)';
-    
-    setTimeout(() => {
-        modal.style.display = 'none';
-        modalImg.src = '';
-    }, 300);
-}
-
-/* ── Navegación entre pantallas ── */
 function abrirCarrusel(){
-    const principal = document.getElementById('pantalla-principal');
-    const carrusel = document.getElementById('pantalla-carousel');
+    const principal  = document.getElementById('pantalla-principal');
+    const carrusel   = document.getElementById('pantalla-carousel');
     principal.classList.add('oculta');
     carrusel.style.display = 'flex';
     requestAnimationFrame(()=>{
@@ -752,7 +715,7 @@ function abrirCarrusel(){
 
 function cerrarCarrusel(){
     const principal = document.getElementById('pantalla-principal');
-    const carrusel = document.getElementById('pantalla-carousel');
+    const carrusel  = document.getElementById('pantalla-carousel');
     carrusel.classList.remove('visible');
     setTimeout(()=>{
         carrusel.style.display='none';
@@ -778,10 +741,10 @@ function crearCorazon(){
     heart.classList.add("heart");
     heart.innerHTML = "❤";
     const size = Math.random()*20+10;
-    heart.style.fontSize = size+"px";
-    heart.style.left = Math.random()*100+"vw";
-    heart.style.bottom = "0";
-    heart.style.opacity = "0.8";
+    heart.style.fontSize   = size+"px";
+    heart.style.left       = Math.random()*100+"vw";
+    heart.style.bottom     = "0";
+    heart.style.opacity    = "0.8";
     const stopVh = Math.floor(Math.random()*70+10);
     heart.style.setProperty('--stop-y',`-${stopVh}vh`);
     const dur = (Math.random()*4+3).toFixed(1)+"s";
@@ -812,7 +775,7 @@ function crearPeligro(){
     const size = Math.random()*18+14;
     el.style.fontSize = size + "px";
     el.style.color = Math.random() > 0.5 ? "#ffffff" : "#ffff00";
-    el.style.left = Math.random()*90 + "vw";
+    el.style.left  = Math.random()*90 + "vw";
     el.style.bottom = "0";
     el.style.opacity = "0.9";
     const rot = (Math.random()*30 - 15).toFixed(1) + "deg";
@@ -826,7 +789,7 @@ function crearPeligro(){
     setTimeout(()=>{
         const rect = el.getBoundingClientRect();
         el.style.animation = "none";
-        el.style.top = rect.top + "px";
+        el.style.top  = rect.top  + "px";
         el.style.left = rect.left + "px";
         el.style.bottom = "auto";
         setTimeout(()=>{
@@ -848,7 +811,7 @@ function desactivarModoPeligro() {
     document.querySelectorAll('.peligro-txt').forEach(e => e.remove());
 }
 
-  setInterval(crearCorazon, 350);
+setInterval(crearCorazon, 350);
 
 /* ── Alerta escapatoria del contador ── */
 const frases = [
@@ -872,7 +835,7 @@ function abrirAlerta() {
     document.getElementById('alerta-texto').textContent = frases[0];
     const alerta = document.getElementById('alerta-contador');
     alerta.style.left = '50%';
-    alerta.style.top = '50%';
+    alerta.style.top  = '50%';
     alerta.style.transform = 'translate(-50%, -50%)';
     alerta.classList.add('visible');
     const btnSi = document.getElementById('btn-si-volador');
@@ -890,12 +853,12 @@ function cerrarAlerta() {
 function alertaEscapar() {
     alertaIntentos++;
     if (alertaIntentos >= alertaMaximo) {
-        document.getElementById('alerta-texto').textContent = "¡Está bien, está bien! 😂 Te ganaste ver el mensaje...";
-        const btnSi = document.getElementById('btn-si-volador');
-        btnSi.style.display = 'none';
+        document.getElementById('alerta-texto').textContent = "¡Está bien, está bien! 😂 Pero el tiempo sigue igual...";
+        document.querySelector('.alerta-btns').style.display = 'none';
+        moverBotonSi();
         setTimeout(() => {
             cerrarAlerta();
-            document.getElementById('btn-mensaje-final').style.display = 'block';
+            document.querySelector('.alerta-btns').style.display = 'flex';
         }, 2200);
         return;
     }
@@ -907,10 +870,10 @@ function alertaEscapar() {
 
 function posicionarSiCercaDeAlerta() {
     const alerta = document.getElementById('alerta-contador');
-    const btnSi = document.getElementById('btn-si-volador');
-    const rect = alerta.getBoundingClientRect();
-    btnSi.style.left = (rect.left + 80) + 'px';
-    btnSi.style.top = (rect.bottom - 45) + 'px';
+    const btnSi  = document.getElementById('btn-si-volador');
+    const rect   = alerta.getBoundingClientRect();
+    btnSi.style.left = (rect.left + 16) + 'px';
+    btnSi.style.top  = (rect.bottom - 50) + 'px';
 }
 
 function rectsSolapan(ax, ay, aw, ah, bx, by, bw, bh, margen) {
@@ -921,33 +884,34 @@ function rectsSolapan(ax, ay, aw, ah, bx, by, bw, bh, margen) {
 }
 
 function moverBotonSi() {
-    const btnSi = document.getElementById('btn-si-volador');
+    const btnSi  = document.getElementById('btn-si-volador');
     const alerta = document.getElementById('alerta-contador');
 
-    const sw = btnSi.offsetWidth || 60;
+    const sw = btnSi.offsetWidth  || 60;
     const sh = btnSi.offsetHeight || 36;
-    const aw = alerta.offsetWidth || 240;
+    const aw = alerta.offsetWidth  || 240;
     const ah = alerta.offsetHeight || 130;
 
     const margen = 30;
     let sx, sy, ax, ay, intentos = 0;
 
     do {
-        sx = Math.floor(Math.random() * (window.innerWidth - sw - 20)) + 10;
+        sx = Math.floor(Math.random() * (window.innerWidth  - sw - 20)) + 10;
         sy = Math.floor(Math.random() * (window.innerHeight - sh - 20)) + 10;
-        ax = Math.floor(Math.random() * (window.innerWidth - aw - 20)) + 10;
+        ax = Math.floor(Math.random() * (window.innerWidth  - aw - 20)) + 10;
         ay = Math.floor(Math.random() * (window.innerHeight - ah - 20)) + 10;
         intentos++;
     } while (rectsSolapan(sx, sy, sw, sh, ax, ay, aw, ah, margen) && intentos < 30);
 
     btnSi.style.transition = 'left 0.35s cubic-bezier(.77,0,.18,1), top 0.35s cubic-bezier(.77,0,.18,1)';
     btnSi.style.left = sx + 'px';
-    btnSi.style.top = sy + 'px';
+    btnSi.style.top  = sy + 'px';
 
     alerta.style.transform = 'none';
     alerta.style.left = ax + 'px';
-    alerta.style.top = ay + 'px';
+    alerta.style.top  = ay + 'px';
 }
+
 
 /* ════════════════════════════
    PANTALLA MENSAJE FINAL
@@ -994,12 +958,12 @@ function construirProgreso() {
 }
 
 function mostrarFrase(idx) {
-    const el = document.getElementById('frase-final-txt');
+    const el   = document.getElementById('frase-final-txt');
     const dots = document.querySelectorAll('.prog-dot');
 
     dots.forEach((d, i) => {
         d.classList.remove('activo');
-        if (i < idx) d.classList.add('visto');
+        if (i < idx)  d.classList.add('visto');
         if (i === idx) d.classList.add('activo');
     });
 
@@ -1028,7 +992,7 @@ function mostrarFrase(idx) {
 
 function cerrarMensajeFinal() {
     const pantalla = document.getElementById('pantalla-mensaje-final');
-    pantballa = pantalla.classList.remove('visible');
+    pantalla.classList.remove('visible');
     setTimeout(() => {
         pantalla.style.display = 'none';
         mensajeCorriendo = false;
@@ -1042,36 +1006,86 @@ let estrellasArr = [];
 
 function iniciarEstrellas() {
     const canvas = document.getElementById('canvas-estrellas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
+    const ctx    = canvas.getContext('2d');
+    canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
 
     estrellasArr = Array.from({length: 220}, () => ({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 1.6 + 0.3,
-        op: Math.random(),
-        vel: Math.random() * 0.02 + 0.005
+        x:    Math.random() * canvas.width,
+        y:    Math.random() * canvas.height,
+        r:    Math.random() * 1.6 + 0.3,
+        op:   Math.random(),
+        vel:  Math.random() * 0.008 + 0.003,
+        fase: Math.random() * Math.PI * 2,
     }));
 
-    function loop() {
+    let fugaces = [];
+
+    function crearFugaz() {
+        fugaces.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height * 0.5,
+            len: Math.random() * 120 + 60,
+            speed: Math.random() * 6 + 4,
+            op: 1,
+            angle: Math.PI / 5,
+            progress: 0,
+        });
+    }
+    setInterval(crearFugaz, 2800);
+
+    function draw(t) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        estrellasArr.forEach(e => {
-            e.op += e.vel;
-            if(e.op > 1 || e.op < 0) e.vel = -e.vel;
+
+        const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+        grad.addColorStop(0,   '#05001a');
+        grad.addColorStop(0.5, '#0a0030');
+        grad.addColorStop(1,   '#1a0010');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        estrellasArr.forEach(s => {
+            s.op = 0.4 + 0.6 * Math.abs(Math.sin(t * s.vel + s.fase));
             ctx.beginPath();
-            ctx.arc(e.x, e.y, e.r, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(255,255,255,${Math.abs(e.op)})`;
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255,255,220,${s.op})`;
             ctx.fill();
         });
-        animFrameId = requestAnimationFrame(loop);
+
+        fugaces = fugaces.filter(f => f.op > 0.05);
+        fugaces.forEach(f => {
+            f.progress += f.speed;
+            f.op -= 0.018;
+            const ex = f.x + Math.cos(f.angle) * f.progress;
+            const ey = f.y + Math.sin(f.angle) * f.progress;
+            ctx.beginPath();
+            ctx.moveTo(f.x, f.y);
+            ctx.lineTo(ex, ey);
+            ctx.strokeStyle = `rgba(255,255,200,${f.op})`;
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+        });
+
+        animFrameId = requestAnimationFrame(draw);
     }
-    loop();
+    animFrameId = requestAnimationFrame(draw);
 }
 
 function pararEstrellas() {
-    if(animFrameId) cancelAnimationFrame(animFrameId);
+    if (animFrameId) {
+        cancelAnimationFrame(animFrameId);
+        animFrameId = null;
+    }
 }
 </script>
+
+<div id="alerta-contador">
+  <p id="alerta-texto">¿Estás segura de que quieres adelantar el reloj? ⏰</p>
+  <div class="alerta-btns">
+    <button class="btn-alerta-no" onclick="cerrarAlerta()">No</button>
+  </div>
+</div>
+<button id="btn-si-volador" class="btn-alerta-si" onclick="alertaEscapar()" style="display:none; position:fixed; z-index:10000;">Sí</button>
+
 </body>
 </html>
