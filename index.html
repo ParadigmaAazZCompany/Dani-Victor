@@ -300,12 +300,11 @@ button:hover{ transform:scale(1.1); }
     to{ transform:translateY(var(--stop-y)) scale(1.2); opacity:0.75; }
 }
 
-/* NUEVO TRUCO DE OCULTACIÓN: Damos tamaño físico (200x200) para engañar al navegador */
-/* y que no congele el reproductor, pero lo hacemos 100% invisible con opacity y z-index */
+/* El reproductor mantiene tamaño físico real pero está completamente oculto */
 .spotify-contenedor-oculto{
     position:absolute !important;
     top:0; left:0;
-    width:200px !important; height:200px !important;
+    width:250px !important; height:100px !important;
     opacity:0 !important; 
     z-index:-100 !important;
     pointer-events:none !important;
@@ -1004,16 +1003,32 @@ function abrirMensajeFinal() {
     iniciarEstrellas();
     construirProgreso();
 
-    // 2. EJECUCIÓN DE AUDIO DE SPOTIFY (REQUIERE PROTOCOLO HTTPS EN PRODUCCIÓN)
-    if (playerController) {
-        // ID correcto de la canción asignada por ti
-        playerController.loadUri('spotify:track:2Kd1MT5y2CVTJsD9vUc9Yf');
-        
-        // El navegador restringe cambios rápidos en elementos ocultos, aplicamos delay seguro
-        setTimeout(() => {
-            playerController.setVolume(45); // Seteamos el volumen al 45%
-            playerController.play();
-        }, 600);
+    // 2. RECONSTRUCCIÓN DE AUDIO TOTALMENTE ASEGURADA
+    if (spotifyAPIInstance) {
+        try {
+            const contenedorGlobal = document.getElementById('contenedor-spotify-global');
+            // Eliminamos físicamente el iframe anterior para limpiar la memoria de reproducción
+            contenedorGlobal.innerHTML = '<div id="spotify-widget"></div>';
+            
+            // Creamos un nuevo controlador exclusivo para el Track definitivo de tu canción
+            spotifyAPIInstance.createController(
+                document.getElementById('spotify-widget'),
+                { uri: 'spotify:track:2Kd1MT5y2CVTJsD9vUc9Yf', width: '100%', height: '100%' },
+                (nuevoController) => {
+                    playerController = nuevoController;
+                    
+                    // Delay controlado para esperar que el iframe de Spotify monte los permisos de volumen del DOM
+                    setTimeout(() => {
+                        if (playerController) {
+                            playerController.setVolume(45); // Seteamos el volumen al 45% (Moderado)
+                            playerController.play();
+                        }
+                    }, 600);
+                }
+            );
+        } catch (err) {
+            console.log("Error controlado de montaje:", err);
+        }
     }
 
     setTimeout(() => mostrarFrase(0), 600);
@@ -1032,7 +1047,7 @@ function construirProgreso() {
 
 function mostrarFrase(idx) {
     const el   = document.getElementById('frase-final-txt');
-    const dots = document.querySelectorAll('.prog-dot');
+    const dots = document.querySelectorAll('.progreso-frases .prog-dot');
 
     dots.forEach((d, i) => {
         d.classList.remove('activo');
