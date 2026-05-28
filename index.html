@@ -375,14 +375,111 @@ body.peligro #pantalla-principal .card {
     pointer-events: none;
     transition: filter 0.5s, opacity 0.5s;
 }
+
+/* ════════════════════════════
+   PANTALLA MENSAJE FINAL
+════════════════════════════ */
+#pantalla-mensaje-final {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: #000;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+#pantalla-mensaje-final.visible {
+    display: flex;
+    opacity: 1;
+}
+
+/* Canvas de estrellas detrás */
+#canvas-estrellas {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+/* Texto del mensaje */
+.frase-final {
+    position: relative;
+    z-index: 2;
+    color: white;
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    font-family: Georgia, serif;
+    text-align: center;
+    line-height: 1.7;
+    letter-spacing: 0.03em;
+    padding: 0 40px;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 1.2s ease, transform 1.2s ease;
+    text-shadow: 0 0 30px rgba(255,255,200,0.5), 0 2px 8px rgba(0,0,0,0.8);
+    max-width: 700px;
+}
+.frase-final.aparece {
+    opacity: 1;
+    transform: translateY(0);
+}
+.frase-final.desaparece {
+    opacity: 0;
+    transform: translateY(-18px);
+}
+
+/* Botón que aparece cuando el contador llega a 0 */
+#btn-mensaje-final {
+    display: none;
+    margin-top: 14px;
+    padding: 13px 30px;
+    border-radius: 50px;
+    border: none;
+    background: linear-gradient(135deg, #ffe066, #ffb347);
+    color: #5a3000;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 18px rgba(255,200,50,0.45);
+    animation: pulseGold 2s ease-in-out infinite;
+    max-width: none; flex: none;
+}
+@keyframes pulseGold {
+    0%,100% { box-shadow: 0 4px 18px rgba(255,200,50,0.45); transform: scale(1); }
+    50%      { box-shadow: 0 6px 28px rgba(255,200,50,0.8); transform: scale(1.05); }
+}
+#btn-mensaje-final:hover { transform: scale(1.08) !important; }
+
+/* Indicador de progreso (puntitos) */
+.progreso-frases {
+    position: absolute;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 3;
+}
+.prog-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    transition: background 0.4s, transform 0.4s;
+}
+.prog-dot.activo {
+    background: white;
+    transform: scale(1.4);
+}
+.prog-dot.visto {
+    background: rgba(255,255,255,0.65);
+}
 </style>
 </head>
 <body>
 
-<!-- ══ PANTALLA PRINCIPAL ══ -->
 <div id="pantalla-principal">
   <div class="card">
-    <h1>Para ti ❤️</h1>
+    <h1>Dani Girl</h1>
     <p>
       no importa el<br>
       camino que escojas,<br>
@@ -391,7 +488,7 @@ body.peligro #pantalla-principal .card {
 
     <div class="botones-fila">
       <button class="btn-ciao" onclick="abrirCarrusel()">
-        Ci vediamo presto 👋
+        Ci vediamo presto👋
       </button>
       <button onclick="mostrarMensaje()">
         Abrir carta 💌
@@ -402,126 +499,120 @@ body.peligro #pantalla-principal .card {
     </div>
 
     <p id="mensaje" class="hidden">
-      Gracias por hacer mi mundo más bonito 💖
+      ¿Donde queda Tlaxcala? 📍
     </p>
 
     <button onclick="toggleMusic()" style="margin-top:20px; max-width:none; flex:none; width:auto;">
       🎵 Play / Pause
     </button>
 
+    <button id="btn-mensaje-final" onclick="abrirMensajeFinal()">✨ Un mensaje te espera</button>
     <div class="music">Nuestra canción 🎶</div>
   </div>
 </div>
 
-<!-- ══ PANTALLA CARRUSEL ══ -->
 <div id="pantalla-carousel">
 
   <div class="carousel-title">Personas especiales 💕</div>
 
   <div class="carousel-wrapper">
-    <!-- Flecha izq -->
-    <button class="carousel-btn prev" onclick="moverCarrusel(-1)">&#8592;</button>
+    <button class="carousel-btn prev" onclick="moverCarrusel(-1)">←</button>
 
     <div class="carousel-track-container">
       <div class="carousel-track" id="carousel-track">
 
-        <!-- ─ Isabel ─ -->
-        <div class="persona-card">
+         <div class="persona-card">
           <button class="btn-nombre" onclick="toggleMedia(this)">Isabel 🌸</button>
           <div class="media-contenido">
-            <img class="media-foto" src="https://placehold.co/160x160/ffb6c1/fff?text=Isabel" alt="Isabel" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <img class="media-foto" src="Fotos/Isabel.jpeg" alt="Isabel" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
             <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
         </div>
 
-        <!-- ─ Joanna ─ -->
         <div class="persona-card">
-          <button class="btn-nombre" onclick="toggleMedia(this)">Joana 🌺</button>
+          <button class="btn-nombre" onclick="toggleMedia(this)">Joanna 🐬</button>
           <div class="media-contenido">
-            <img class="media-foto" src="https://placehold.co/160x160/f9a8d4/fff?text=Joana" alt="Joana" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <img class="media-foto" src="Fotos/Joana.jpeg" alt="Joanna" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <video class="media-video" controls src="Videos/Joanna.mp4"></video>
+            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
+          </div>
+        </div>
+
+        <div class="persona-card">
+          <button class="btn-nombre" onclick="toggleMedia(this)">Leonardo 🚲</button>
+          <div class="media-contenido">
+            <img class="media-foto" src="Fotos/Leonardo.jpeg" alt="Leonardo" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <video class="media-video" controls src="Videos/Leonardo.mp4"></video>
+            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
+          </div>
+        </div>
+
+        <div class="persona-card">
+          <button class="btn-nombre" onclick="toggleMedia(this)">Lalito 🦋</button>
+          <div class="media-contenido">
+            <img class="media-foto" src="https://placehold.co/160x160/fbbf24/fff?text=Lalito" alt="Lalito" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <video class="media-video" controls src="Videos/Lalito.mp4"></video>
+            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
+          </div>
+        </div>
+
+        <div class="persona-card">
+          <button class="btn-nombre" onclick="toggleMedia(this)">Alessandro 🌊</button>
+          <div class="media-contenido">
+            <img class="media-foto" src="Fotos/Alessandro.jpeg" alt="Alessandro" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
             <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
         </div>
 
-        <!-- ─ Arturo ─ -->
         <div class="persona-card">
-          <button class="btn-nombre" onclick="toggleMedia(this)">Arturo 🎸</button>
+          <button class="btn-nombre" onclick="toggleMedia(this)">Sergio 🎵</button>
           <div class="media-contenido">
-            <img class="media-foto" src="https://placehold.co/160x160/fda4af/fff?text=Arturo" alt="Arturo" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <img class="media-foto" src="Fotos/Sergio.jpeg" alt="Sergio" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <video class="media-video" controls src="Videos/Sergio.mp4"></video>
+            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
+          </div>
+        </div>
+
+        <div class="persona-card">
+          <button class="btn-nombre" onclick="toggleMedia(this)">Leticia 🐢</button>
+          <div class="media-contenido">
+            <img class="media-foto" src="Fotos/Leticia.jpeg" alt="Leticia" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
+            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
+          </div>
+        </div>
+        
+        <div class="persona-card">
+          <button class="btn-nombre" onclick="toggleMedia(this)">Omar 🍴</button>
+          <div class="media-contenido">
+            <img class="media-foto" src="Fotos/Omar.jpg" alt="Omar" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
             <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
         </div>
 
-        <!-- ─ Lalito ─ -->
         <div class="persona-card">
-          <button class="btn-nombre" onclick="toggleMedia(this)">Lalito 🌷</button>
+          <button class="btn-nombre" onclick="toggleMedia(this)">Arturo 📱</button>
           <div class="media-contenido">
-            <img class="media-foto" src="https://placehold.co/160x160/fbbf24/fff?text=Sof%C3%ADa" alt="Lalito
-            " onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
-            <video class="media-video" controls src="https://1drv.ms/v/c/F5660846C2417928/IQAJ-7VKYJ8qQbp0q8Pt-CYmAaNF2qWW3527DALmo0th5ic?e=ejlcGF"></video>
-            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
-          </div>
-        </div>
-
-        <!-- ─ Mateo ─ -->
-        <div class="persona-card">
-          <button class="btn-nombre" onclick="toggleMedia(this)">Mateo 🌊</button>
-          <div class="media-contenido">
-            <img class="media-foto" src="https://placehold.co/160x160/6ee7b7/fff?text=Mateo" alt="Mateo" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
+            <img class="media-foto" src="Fotos/Arturo.jpg" alt="Arturo" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
             <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
             <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
           </div>
         </div>
 
-        <!-- ─ Valentina ─ -->
-        <div class="persona-card">
-          <button class="btn-nombre" onclick="toggleMedia(this)">Valentina 🦋</button>
-          <div class="media-contenido">
-            <img class="media-foto" src="https://placehold.co/160x160/c4b5fd/fff?text=Vale" alt="Valentina" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
-            <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
-            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
-          </div>
-        </div>
+      </div></div><button class="carousel-btn next" onclick="moverCarrusel(1)">→</button>
+  </div><div class="carousel-dots" id="carousel-dots"></div>
 
-        <!-- ─ Lucas ─ -->
-        <div class="persona-card">
-          <button class="btn-nombre" onclick="toggleMedia(this)">Lucas 🎵</button>
-          <div class="media-contenido">
-            <img class="media-foto" src="https://placehold.co/160x160/93c5fd/fff?text=Lucas" alt="Lucas" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
-            <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
-            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
-          </div>
-        </div>
-
-        <!-- ─ Camila ─ -->
-        <div class="persona-card">
-          <button class="btn-nombre" onclick="toggleMedia(this)">Camila 🌙</button>
-          <div class="media-contenido">
-            <img class="media-foto" src="https://placehold.co/160x160/f0abfc/fff?text=Camila" alt="Camila" onclick="toggleMedia(this.closest('.persona-card').querySelector('.btn-nombre'))">
-            <video class="media-video" controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
-            <span class="hint-cerrar">Toca el nombre o la foto para cerrar</span>
-          </div>
-        </div>
-
-      </div><!-- /track -->
-    </div><!-- /container -->
-
-    <!-- Flecha der -->
-    <button class="carousel-btn next" onclick="moverCarrusel(1)">&#8594;</button>
-  </div><!-- /wrapper -->
-
-  <!-- Puntos -->
-  <div class="carousel-dots" id="carousel-dots"></div>
-
-  <!-- Botón volver -->
   <button class="btn-volver" onclick="cerrarCarrusel()">← Volver a la carta</button>
 
-</div><!-- /pantalla-carousel -->
+</div><div id="pantalla-mensaje-final">
+  <canvas id="canvas-estrellas"></canvas>
+  <div class="frase-final" id="frase-final-txt"></div>
+  <div class="progreso-frases" id="progreso-frases"></div>
+</div>
 
-<!-- Spotify oculto -->
 <div class="spotify-contenedor-oculto">
   <div id="spotify-widget"></div>
 </div>
@@ -548,9 +639,13 @@ function toggleMusic(){
 
 /* ── Contador ── */
 function actualizarContador(){
-    const diff = new Date('2026-05-31T23:59:59') - new Date();
+    const diff = new Date('2026-05-30T20:00:00') - new Date();
     const btn  = document.getElementById('btn-contador');
-    if(diff <= 0){ btn.innerHTML='🎉 ¡Ya llegó!'; return; }
+    if(diff <= 0){
+        btn.innerHTML = '🎉 ¡Ya llegó!';
+        document.getElementById('btn-mensaje-final').style.display = 'block';
+        return;
+    }
     const d=Math.floor(diff/86400000),
           h=Math.floor((diff%86400000)/3600000),
           m=Math.floor((diff%3600000)/60000),
@@ -562,7 +657,7 @@ setInterval(actualizarContador,1000);
 
 /* ── Carrusel ── */
 let indiceActual = 0;
-const total = 8;
+const total = 9; // Actualizado a 9 por Arturo
 
 function construirDots(){
     const cont = document.getElementById('carousel-dots');
@@ -578,9 +673,11 @@ function construirDots(){
 construirDots();
 
 function irA(idx){
-    /* Cerrar media abierto en la tarjeta actual */
     const tarjetas = document.querySelectorAll('.persona-card');
-    tarjetas[indiceActual].querySelector('.media-contenido').classList.remove('abierto');
+    if(tarjetas[indiceActual]){
+        const media = tarjetas[indiceActual].querySelector('.media-contenido');
+        if(media) media.classList.remove('abierto');
+    }
 
     indiceActual = (idx + total) % total;
     document.getElementById('carousel-track').style.transform =
@@ -593,18 +690,15 @@ function irA(idx){
 
 function moverCarrusel(dir){ irA(indiceActual + dir); }
 
-/* ── Toggle media de cada persona ── */
 function toggleMedia(btn){
     const media = btn.closest('.persona-card').querySelector('.media-contenido');
     const abierto = media.classList.toggle('abierto');
-    /* Pausar video si se cierra */
     if(!abierto){
         const vid = media.querySelector('video');
         if(vid) vid.pause();
     }
 }
 
-/* ── Navegación entre pantallas ── */
 function abrirCarrusel(){
     const principal  = document.getElementById('pantalla-principal');
     const carrusel   = document.getElementById('pantalla-carousel');
@@ -622,7 +716,7 @@ function cerrarCarrusel(){
     setTimeout(()=>{
         carrusel.style.display='none';
         principal.classList.remove('oculta');
-        irA(0); // resetear carrusel
+        irA(0);
     }, 500);
 }
 
@@ -704,14 +798,12 @@ function crearPeligro(){
 function activarModoPeligro() {
     modoPeligro = true;
     document.body.classList.add('peligro');
-    // limpiar corazones existentes
     document.querySelectorAll('.heart').forEach(h => h.remove());
 }
 
 function desactivarModoPeligro() {
     modoPeligro = false;
     document.body.classList.remove('peligro');
-    // limpiar textos de peligro
     document.querySelectorAll('.peligro-txt').forEach(e => e.remove());
 }
 
@@ -727,24 +819,21 @@ const frases = [
     "Nope, nope, nope... ¡inténtalo de otra forma! 🚫",
     "¡El reloj se escondió! Ya no lo encuentro 😂",
     "Ok ok... pero igual no voy a dejarte 😜",
-    "No DANY no vayas pro ese camino",
 ];
 
 let alertaIntentos = 0;
-let alertaMaximo = Math.floor(Math.random() * 6) + 3; // entre 3 y 8
+let alertaMaximo = Math.floor(Math.random() * 6) + 3;
 
 function abrirAlerta() {
     activarModoPeligro();
     alertaIntentos = 0;
     alertaMaximo = Math.floor(Math.random() * 6) + 3;
     document.getElementById('alerta-texto').textContent = frases[0];
-    // Centrar alerta fija en pantalla
     const alerta = document.getElementById('alerta-contador');
     alerta.style.left = '50%';
     alerta.style.top  = '50%';
     alerta.style.transform = 'translate(-50%, -50%)';
     alerta.classList.add('visible');
-    // Mostrar botón SI y ubicarlo cerca del No
     const btnSi = document.getElementById('btn-si-volador');
     btnSi.style.display = 'block';
     posicionarSiCercaDeAlerta();
@@ -762,7 +851,6 @@ function alertaEscapar() {
     const alerta = document.getElementById('alerta-contador');
 
     if (alertaIntentos >= alertaMaximo) {
-        // Se rinde y cierra
         document.getElementById('alerta-texto').textContent = "¡Está bien, está bien! 😂 Pero el tiempo sigue igual...";
         document.querySelector('.alerta-btns').style.display = 'none';
         moverBotonSi();
@@ -773,7 +861,6 @@ function alertaEscapar() {
         return;
     }
 
-    // Cambiar frase y escapar a posición random
     const fraseIdx = Math.min(alertaIntentos, frases.length - 1);
     document.getElementById('alerta-texto').textContent = frases[fraseIdx];
     moverBotonSi();
@@ -783,7 +870,6 @@ function posicionarSiCercaDeAlerta() {
     const alerta = document.getElementById('alerta-contador');
     const btnSi  = document.getElementById('btn-si-volador');
     const rect   = alerta.getBoundingClientRect();
-    // Colocar el botón SI justo a la izquierda del botón NO dentro de la alerta
     btnSi.style.left = (rect.left + 16) + 'px';
     btnSi.style.top  = (rect.bottom - 50) + 'px';
 }
@@ -804,10 +890,9 @@ function moverBotonSi() {
     const aw = alerta.offsetWidth  || 240;
     const ah = alerta.offsetHeight || 130;
 
-    const margen = 30; // separación mínima entre los dos
+    const margen = 30;
     let sx, sy, ax, ay, intentos = 0;
 
-    // Buscar posiciones que no se solapen
     do {
         sx = Math.floor(Math.random() * (window.innerWidth  - sw - 20)) + 10;
         sy = Math.floor(Math.random() * (window.innerHeight - sh - 20)) + 10;
@@ -816,27 +901,185 @@ function moverBotonSi() {
         intentos++;
     } while (rectsSolapan(sx, sy, sw, sh, ax, ay, aw, ah, margen) && intentos < 30);
 
-    // Mover botón SI
     btnSi.style.transition = 'left 0.35s cubic-bezier(.77,0,.18,1), top 0.35s cubic-bezier(.77,0,.18,1)';
     btnSi.style.left = sx + 'px';
     btnSi.style.top  = sy + 'px';
 
-    // Mover alerta (sin transition para que sea instantáneo y sorpresivo)
     alerta.style.transform = 'none';
     alerta.style.left = ax + 'px';
     alerta.style.top  = ay + 'px';
 }
 
+/* ── Pantalla Mensaje Final ── */
+const frasesMensaje = [
+    "A veces es muy fácil decir te quiero ",
+    "y muy difícil de demostrar…",
+    "yo no soy bueno con las despedidas",
+    "pero agradezco el tiempo que compartimos",
+    "me gustaria decirte que te voy a extrañar ",
+    "pero no se puede extrañar lo que nunca fue tuyo <3 ✨",
+    " ✨"
+];
+
+let fraseIdx = 0;
+let mensajeCorriendo = false;
+
+function abrirMensajeFinal() {
+    if (mensajeCorriendo) return;
+    mensajeCorriendo = true;
+    fraseIdx = 0;
+
+    const pantalla = document.getElementById('pantalla-mensaje-final');
+    pantalla.style.display = 'flex';
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => pantalla.classList.add('visible'));
+    });
+
+    iniciarEstrellas();
+    construirProgreso();
+
+    setTimeout(() => mostrarFrase(0), 600);
+}
+
+function construirProgreso() {
+    const cont = document.getElementById('progreso-frases');
+    cont.innerHTML = '';
+    frasesMensaje.forEach((_, i) => {
+        const d = document.createElement('div');
+        d.classList.add('prog-dot');
+        if (i === 0) d.classList.add('activo');
+        cont.appendChild(d);
+    });
+}
+
+function mostrarFrase(idx) {
+    const el   = document.getElementById('frase-final-txt');
+    const dots = document.querySelectorAll('.prog-dot');
+
+    dots.forEach((d, i) => {
+        d.classList.remove('activo');
+        if (i < idx)  d.classList.add('visto');
+        if (i === idx) d.classList.add('activo');
+    });
+
+    el.textContent = frasesMensaje[idx];
+    el.classList.remove('desaparece');
+    void el.offsetWidth;
+    el.classList.add('aparece');
+
+    const esUltima = idx === frasesMensaje.length - 1;
+    const pausa = esUltima ? 4000 : 2800;
+
+    setTimeout(() => {
+        el.classList.remove('aparece');
+        el.classList.add('desaparece');
+
+        setTimeout(() => {
+            if (!esUltima) {
+                mostrarFrase(idx + 1);
+            } else {
+                dots.forEach(d => d.classList.add('visto'));
+                setTimeout(() => cerrarMensajeFinal(), 800);
+            }
+        }, 1200);
+    }, pausa);
+}
+
+function cerrarMensajeFinal() {
+    const pantalla = document.getElementById('pantalla-mensaje-final');
+    pantalla.classList.remove('visible');
+    setTimeout(() => {
+        pantalla.style.display = 'none';
+        mensajeCorriendo = false;
+        pararEstrellas();
+    }, 900);
+}
+
+/* ── Canvas de estrellas ── */
+let animFrameId = null;
+let estrellasArr = [];
+
+function iniciarEstrellas() {
+    const canvas = document.getElementById('canvas-estrellas');
+    const ctx    = canvas.getContext('2d');
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    estrellasArr = Array.from({length: 220}, () => ({
+        x:    Math.random() * canvas.width,
+        y:    Math.random() * canvas.height,
+        r:    Math.random() * 1.6 + 0.3,
+        op:   Math.random(),
+        vel:  Math.random() * 0.008 + 0.003,
+        fase: Math.random() * Math.PI * 2,
+    }));
+
+    let fugaces = [];
+
+    function crearFugaz() {
+        fugaces.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height * 0.5,
+            len: Math.random() * 120 + 60,
+            speed: Math.random() * 6 + 4,
+            op: 1,
+            angle: Math.PI / 5,
+            progress: 0,
+        });
+    }
+    let intervalFugaz = setInterval(crearFugaz, 2800);
+
+    function draw(t) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+        grad.addColorStop(0,   '#05001a');
+        grad.addColorStop(0.5, '#0a0030');
+        grad.addColorStop(1,   '#1a0010');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        estrellasArr.forEach(s => {
+            s.op = 0.4 + 0.6 * Math.abs(Math.sin(t * s.vel + s.fase));
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255,255,220,${s.op})`;
+            ctx.fill();
+        });
+
+        fugaces = fugaces.filter(f => f.op > 0.05);
+        fugaces.forEach(f => {
+            f.progress += f.speed;
+            f.op -= 0.018;
+            const ex = f.x + Math.cos(f.angle) * f.progress;
+            const ey = f.y + Math.sin(f.angle) * f.progress;
+            ctx.beginPath();
+            ctx.moveTo(f.x, f.y);
+            ctx.lineTo(ex, ey);
+            ctx.strokeStyle = `rgba(255,255,200,${f.op})`;
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+        });
+
+        animFrameId = requestAnimationFrame(draw);
+    }
+    animFrameId = requestAnimationFrame(draw);
+}
+
+function pararEstrellas() {
+    if (animFrameId) {
+        cancelAnimationFrame(animFrameId);
+        animFrameId = null;
+    }
+}
 </script>
 
-<!-- ── Alerta escapatoria ── -->
 <div id="alerta-contador">
   <p id="alerta-texto">¿Estás segura de que quieres adelantar el reloj? ⏰</p>
   <div class="alerta-btns">
     <button class="btn-alerta-no" onclick="cerrarAlerta()">No</button>
   </div>
 </div>
-<!-- Botón SI volador (independiente) -->
 <button id="btn-si-volador" class="btn-alerta-si" onclick="alertaEscapar()" style="display:none; position:fixed; z-index:10000;">Sí</button>
 
 </body>
